@@ -20,4 +20,10 @@ public class GlobalExceptionHandler {
         GeneralErrorResponseHandler handler = new GeneralErrorResponseHandler(ex.getMessage(), HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(handler);
     }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<GeneralErrorResponseHandler> duplicateResourceHandler(DuplicateResourceException ex) {
+        GeneralErrorResponseHandler handler = new GeneralErrorResponseHandler(ex.getMessage(), HttpStatus.CONFLICT.value());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(handler);
+    }
 }
