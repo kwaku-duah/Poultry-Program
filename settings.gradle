@@ -1,7 +1,0 @@
-
-rootProject.name='PoultryProgram'
-
-include 'common-proto'
-include 'auth-service'
-include 'user-service'
-
