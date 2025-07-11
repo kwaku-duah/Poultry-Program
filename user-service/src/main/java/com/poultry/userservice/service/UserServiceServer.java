@@ -8,7 +8,6 @@ import com.poultry.userservice.exception.ResourceNotFoundException;
 import com.poultry.userservice.repository.UserRepository;
 import io.grpc.stub.StreamObserver;
 import org.springframework.grpc.server.service.GrpcService;
-import org.springframework.stereotype.Service;
 
 @GrpcService
 public class UserServiceServer extends UserServiceGrpc.UserServiceImplBase {
