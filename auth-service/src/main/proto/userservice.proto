@@ -7,3 +7,7 @@ option  java_outer_classname="UserServiceProto";
 service UserService {
   rpc GetUserByEmail (GetUserByEmailRequest) returns (UserResponse);
 }
+
+message GetUserByEmailRequest {
+  string email = 1;
+}
