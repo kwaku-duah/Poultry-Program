@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
         }
 
         User user = userMapper.toEntity(userRequest);
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        String encodedPassword = bCryptPasswordEncoder.encode(userRequest.password());
         user.setPassword(encodedPassword);
         userRepository.save(user);
 
