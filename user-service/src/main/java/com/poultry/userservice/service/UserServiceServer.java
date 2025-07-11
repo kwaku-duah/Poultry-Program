@@ -4,6 +4,7 @@ import com.poultry.userservice.GetUserByEmailRequest;
 import com.poultry.userservice.UserResponse;
 import com.poultry.userservice.UserServiceGrpc;
 import com.poultry.userservice.entity.User;
+import com.poultry.userservice.exception.ResourceNotFoundException;
 import com.poultry.userservice.repository.UserRepository;
 import io.grpc.stub.StreamObserver;
 import org.springframework.grpc.server.service.GrpcService;
@@ -21,7 +22,7 @@ public class UserServiceServer extends UserServiceGrpc.UserServiceImplBase {
     @Override
     public void getUserByEmail(GetUserByEmailRequest request, StreamObserver<UserResponse> responseObserver) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(()-> new RuntimeException("Email not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Email " + request.getEmail() + " not found"));
 
         UserResponse response = UserResponse.newBuilder()
                 .setId(user.getId())
