@@ -11,3 +11,9 @@ service UserService {
 message GetUserByEmailRequest {
   string email = 1;
 }
+
+message UserResponse {
+  int64 id = 1;
+  string email = 2;
+  string password = 3;
+}
