@@ -7,5 +7,5 @@ import com.poultry.userservice.entity.User;
 
 
 public interface UserService {
-    void addUser(UserRequest request);
+    Void addUser(UserRequest request);
 }
