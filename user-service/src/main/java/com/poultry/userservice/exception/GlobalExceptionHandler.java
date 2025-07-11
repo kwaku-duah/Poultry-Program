@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GeneralErrorResponseHandler> errorHandler(Exception ex) {
-       GeneralErrorResponseHandler handler = new GeneralErrorResponseHandler("Something went wrong, please contact suport", HttpStatus.INTERNAL_SERVER_ERROR.value());
+       GeneralErrorResponseHandler handler = new GeneralErrorResponseHandler("Something went wrong, please contact support", HttpStatus.INTERNAL_SERVER_ERROR.value());
        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(handler);
     }
 }
