@@ -1,5 +1,6 @@
 package com.poultry.userservice.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -11,7 +12,7 @@ import lombok.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GeneratedType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String password;
