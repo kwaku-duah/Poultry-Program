@@ -3,6 +3,7 @@ package com.poultry.authservice.client;
 import com.poultry.authservice.GetUserByEmailRequest;
 import com.poultry.authservice.UserResponse;
 import com.poultry.authservice.UserServiceGrpc;
+import com.poultry.authservice.dto.UserDto;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,13 @@ public class UserGrpcClient {
         this.blockingStub = UserServiceGrpc.newBlockingStub(channel);
     }
 
-    public UserResponse getUserByEmail(String email) {
+    public UserDto getUserByEmail(String email) {
         GetUserByEmailRequest request = GetUserByEmailRequest.newBuilder()
                 .setEmail(email)
                 .build();
-        return blockingStub.getUserByEmail(request);
+       UserResponse userResponse = blockingStub.getUserByEmail(request);
+
+       return new UserDto(
+               userResponse.getId(), userResponse.getEmail(), userResponse.getPassword());
     }
 }
