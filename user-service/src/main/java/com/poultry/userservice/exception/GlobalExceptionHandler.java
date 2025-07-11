@@ -14,4 +14,10 @@ public class GlobalExceptionHandler {
        GeneralErrorResponseHandler handler = new GeneralErrorResponseHandler("Something went wrong, please contact support", HttpStatus.INTERNAL_SERVER_ERROR.value());
        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(handler);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<GeneralErrorResponseHandler> resourceNotFoundHandler(ResourceNotFoundException ex) {
+        GeneralErrorResponseHandler handler = new GeneralErrorResponseHandler(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(handler);
+    }
 }
