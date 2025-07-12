@@ -25,7 +25,7 @@ public class UserGrpcClient {
     }
 
 
-    public UserDto getUserByEmail(String email) {
+    public UserResponse getUserByEmail(String email) {
         GetUserByEmailRequest request = GetUserByEmailRequest.newBuilder()
                 .setEmail(email)
                 .build();
@@ -36,7 +36,6 @@ public class UserGrpcClient {
                 .map(role -> com.poultry.authservice.Role.valueOf(role.name()))
                 .collect(Collectors.toSet());
 
-        return new UserDto(
-               userResponse.getId(), userResponse.getEmail(), userResponse.getPassword(), mappedRoles);
+        return userResponse;
     }
 }
