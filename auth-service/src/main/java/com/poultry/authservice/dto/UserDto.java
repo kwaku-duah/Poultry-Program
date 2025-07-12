@@ -1,4 +1,7 @@
 package com.poultry.authservice.dto;
 
-public record UserDto(Long id, String username, String password) {
+
+import java.util.Set;
+
+public record UserDto(Long id, String email, String password, Set<com.poultry.authservice.Role> roles) {
 }

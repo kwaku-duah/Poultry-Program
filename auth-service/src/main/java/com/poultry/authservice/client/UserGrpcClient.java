@@ -8,6 +8,9 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 public class UserGrpcClient {
 
@@ -21,13 +24,19 @@ public class UserGrpcClient {
         this.blockingStub = UserServiceGrpc.newBlockingStub(channel);
     }
 
+
     public UserDto getUserByEmail(String email) {
         GetUserByEmailRequest request = GetUserByEmailRequest.newBuilder()
                 .setEmail(email)
                 .build();
        UserResponse userResponse = blockingStub.getUserByEmail(request);
 
-       return new UserDto(
-               userResponse.getId(), userResponse.getEmail(), userResponse.getPassword());
+        Set<com.poultry.authservice.Role> mappedRoles =userResponse.getRolesList()
+                .stream()
+                .map(role -> com.poultry.authservice.Role.valueOf(role.name()))
+                .collect(Collectors.toSet());
+
+        return new UserDto(
+               userResponse.getId(), userResponse.getEmail(), userResponse.getPassword(), mappedRoles);
     }
 }
