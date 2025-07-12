@@ -16,4 +16,17 @@ message UserResponse {
   int64 id = 1;
   string email = 2;
   string password =3;
+  repeated Role roles = 4;
 }
+
+enum Role {
+  ROLE_UNSPECIFIED = 0;
+    ROLE_ADMIN = 1;
+    ROLE_VET = 2;
+    ROLE_FARMER = 3;
+    ROLE_SUPERVISOR = 4;
+    ROLE_USER = 5;
+    ROLE_SUPPLIER = 6;
+    ROLE_TRADER = 7;
+}
+
