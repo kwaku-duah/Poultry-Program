@@ -36,5 +36,6 @@ public class UserServiceImpl implements UserService{
         user.setRoles(EnumSet.of(Role.ROLE_USER));
         userRepository.save(user);
 
+
     };
 }
