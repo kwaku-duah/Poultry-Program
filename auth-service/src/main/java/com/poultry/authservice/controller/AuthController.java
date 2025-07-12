@@ -1,14 +1,12 @@
 package com.poultry.authservice.controller;
 
 import com.poultry.authservice.UserResponse;
-import com.poultry.authservice.client.UserGrpcClient;
 import com.poultry.authservice.dto.LoginRequest;
 import com.poultry.authservice.dto.LoginResponseDto;
 
 import com.poultry.authservice.service.AuthService;
 import com.poultry.authservice.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -27,11 +25,9 @@ public class AuthController {
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
-
         return  new LoginResponseDto (
                 user.getId(), user.getEmail(),user.getPassword(), new HashSet<>(user.getRolesList()),accessToken, refreshToken
         );
-
 
     }
 }

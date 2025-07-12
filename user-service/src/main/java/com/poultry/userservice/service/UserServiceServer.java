@@ -1,6 +1,7 @@
 package com.poultry.userservice.service;
 
 import com.poultry.userservice.GetUserByEmailRequest;
+import com.poultry.userservice.Role;
 import com.poultry.userservice.UserResponse;
 import com.poultry.userservice.UserServiceGrpc;
 import com.poultry.userservice.entity.User;
@@ -8,6 +9,8 @@ import com.poultry.userservice.exception.ResourceNotFoundException;
 import com.poultry.userservice.repository.UserRepository;
 import io.grpc.stub.StreamObserver;
 import org.springframework.grpc.server.service.GrpcService;
+
+import java.util.stream.Collectors;
 
 @GrpcService
 public class UserServiceServer extends UserServiceGrpc.UserServiceImplBase {
@@ -27,6 +30,11 @@ public class UserServiceServer extends UserServiceGrpc.UserServiceImplBase {
                 .setId(user.getId())
                 .setEmail(user.getEmail())
                 .setPassword(user.getPassword())
+                .addAllRoles(
+                        user.getRoles().stream()
+                                .map(role -> com.poultry.userservice.Role.valueOf(role.name()))
+                                .collect(Collectors.toList())
+                )
                 .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
