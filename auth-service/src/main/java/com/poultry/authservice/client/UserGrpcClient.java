@@ -3,13 +3,12 @@ package com.poultry.authservice.client;
 import com.poultry.authservice.GetUserByEmailRequest;
 import com.poultry.authservice.UserResponse;
 import com.poultry.authservice.UserServiceGrpc;
+import com.poultry.authservice.dto.LoginResponseDto;
 import com.poultry.authservice.dto.UserDto;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserGrpcClient {
@@ -29,13 +28,9 @@ public class UserGrpcClient {
         GetUserByEmailRequest request = GetUserByEmailRequest.newBuilder()
                 .setEmail(email)
                 .build();
-       UserResponse userResponse = blockingStub.getUserByEmail(request);
+       return blockingStub.getUserByEmail(request);
 
-        Set<com.poultry.authservice.Role> mappedRoles =userResponse.getRolesList()
-                .stream()
-                .map(role -> com.poultry.authservice.Role.valueOf(role.name()))
-                .collect(Collectors.toSet());
 
-        return userResponse;
+
     }
 }
