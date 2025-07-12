@@ -3,8 +3,6 @@ package com.poultry.authservice.client;
 import com.poultry.authservice.GetUserByEmailRequest;
 import com.poultry.authservice.UserResponse;
 import com.poultry.authservice.UserServiceGrpc;
-import com.poultry.authservice.dto.LoginResponseDto;
-import com.poultry.authservice.dto.UserDto;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.stereotype.Service;
