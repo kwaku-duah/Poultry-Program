@@ -60,7 +60,8 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public LoginResponseDto fullUser(LoginRequest loginRequest) {
-        return null;
+        UserResponse user = userGrpcClient.getUserByEmail(loginRequest.email());
+
     }
 
 }
