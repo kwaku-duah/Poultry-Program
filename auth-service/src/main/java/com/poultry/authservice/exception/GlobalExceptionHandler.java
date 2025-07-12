@@ -15,4 +15,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(InvalidCredentialException.class)
+    public ResponseEntity<GenericErrorResponse> invalidCredentials(InvalidCredentialException ex) {
+        GenericErrorResponse response = new GenericErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }
