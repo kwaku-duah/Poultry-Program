@@ -29,29 +29,24 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateAccessToken(UserResponse user) {
-        Instant now = Instant.now();
-        Instant accessExpiry = now.plus(accessTokenExpiration);
-
 
         return Jwts.builder()
                 .subject(String.valueOf(user.getId()))
                 .claim("roles", user.getRolesList().stream()
                         .map(Enum::name)
                         .collect(Collectors.toList()))
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(accessExpiry))
+                .issuedAt(new Date())
+                .expiration(Date.from(Instant.now().plus(accessTokenExpiration)))
                 .signWith(getSignKey())
                 .compact();
     }
 
     @Override
     public String generateRefreshToken(UserResponse user) {
-        Instant now = Instant.now();
-        Instant refreshExpiry = now.plus(refreshTokenExpiration);
         return Jwts.builder()
                 .subject(String.valueOf(user.getId()))
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(refreshExpiry))
+                .issuedAt(new Date())
+                .expiration(Date.from(Instant.now().plus(refreshTokenExpiration)))
                 .signWith(getSignKey())
                 .compact();
     }
