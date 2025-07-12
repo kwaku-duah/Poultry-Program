@@ -62,6 +62,9 @@ public class JwtServiceImpl implements JwtService {
     public LoginResponseDto fullUser(LoginRequest loginRequest) {
         UserResponse user = userGrpcClient.getUserByEmail(loginRequest.email());
 
+        if (user == null) {
+            throw new
+        }
     }
 
 }
