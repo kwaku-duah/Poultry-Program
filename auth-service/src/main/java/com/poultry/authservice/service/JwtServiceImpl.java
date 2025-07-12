@@ -5,10 +5,13 @@ import com.poultry.authservice.UserResponse;
 import com.poultry.authservice.client.UserGrpcClient;
 import com.poultry.authservice.dto.LoginRequest;
 import com.poultry.authservice.dto.LoginResponseDto;
+import com.poultry.authservice.exception.UserNotFoundException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
 
-    private final UserGrpcClient userGrpcClient;
+
 
     @Value("${secret.key}")
     private String secretKeyString;
@@ -58,14 +61,6 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
-    @Override
-    public LoginResponseDto fullUser(LoginRequest loginRequest) {
-        UserResponse user = userGrpcClient.getUserByEmail(loginRequest.email());
-
-        if (user == null) {
-            throw new
-        }
-    }
 
 }
 
