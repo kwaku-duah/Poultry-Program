@@ -1,2 +1,2 @@
 rootProject.name='Poultry-Program'
-include 'proto-shared', 'auth-service', 'user-service'
+include 'proto-shared', 'auth-service', 'gateway-service'
