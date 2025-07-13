@@ -1,8 +1,8 @@
 syntax = "proto3";
 
 option java_multiple_files=true;
-option java_package="com.poultry.shared.token";
-option java_outer_classname="TokenProto";
+option java_package="com.poultry.token";
+option java_outer_classname="TokenValidatorProto";
 
 service TokenValidator {
   rpc ValidateToken (TokenRequest) returns (TokenResponse);
@@ -13,6 +13,6 @@ message TokenRequest {
 }
 
 message TokenResponse {
-  string userId = 1;
+  string id = 1;
   string roles = 2;
 }

@@ -1,9 +1,0 @@
-rootProject.name = 'PoultryProgram'
-
-include 'auth-service'
-include 'gateway-service'
-include 'proto-shared'
-
-project(':proto-shared').projectDir = file('proto-shared')
-project(':auth-service').projectDir = file('auth-service')
-project(':gateway-service').projectDir = file('gateway-service')
