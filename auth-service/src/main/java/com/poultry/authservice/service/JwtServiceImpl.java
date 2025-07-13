@@ -3,6 +3,7 @@ package com.poultry.authservice.service;
 import com.poultry.authservice.Role;
 import com.poultry.authservice.UserResponse;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,29 @@ public class JwtServiceImpl implements JwtService {
                 .expiration(Date.from(Instant.now().plus(refreshTokenExpiration)))
                 .signWith(getSignKey())
                 .compact();
+    }
+
+    private Claims getClaimsFromToken(String token) {
+        return Jwts.parser()
+                .verifyWith(getSignKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    @Override
+    public boolean isValidToken(String token) {
+
+    }
+
+    @Override
+    public String extractUserId(String token) {
+        return "";
+    }
+
+    @Override
+    public String extractRole(String token) {
+        return "";
     }
 
 
