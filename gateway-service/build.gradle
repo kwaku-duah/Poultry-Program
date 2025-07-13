@@ -26,6 +26,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.grpc:grpc-services'
     implementation 'org.springframework.grpc:spring-grpc-spring-boot-starter'
+
+    implementation project(':proto-shared')
+    
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.grpc:spring-grpc-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
