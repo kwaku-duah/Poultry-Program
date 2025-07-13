@@ -1,6 +1,5 @@
 package com.poultry.authservice.service;
 
-import com.poultry.authservice.Role;
 import com.poultry.authservice.UserResponse;
 
 import io.jsonwebtoken.Claims;
@@ -15,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,8 +68,12 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public boolean isValidToken(String token) {
-        Claims claim = getClaimsFromToken(token);
-        return claim.getExpiration().after(new Date());
+        try {
+            Claims claim = getClaimsFromToken(token);
+            return claim.getExpiration().after(new Date());
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     @Override
