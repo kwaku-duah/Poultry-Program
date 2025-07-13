@@ -4,7 +4,6 @@ import com.poultry.gatewayservice.client.TokenGrpcClient;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -26,7 +25,7 @@ public class JwtGatewayFilter implements GlobalFilter {
         String path = request.getPath().toString();
 
         // Allow public endpoints
-        if (path.startsWith("/api/v1/auth")) {
+        if (path.startsWith("/api/v1/auth/**")) {
             return chain.filter(exchange);
         }
 

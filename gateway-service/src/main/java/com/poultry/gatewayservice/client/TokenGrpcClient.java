@@ -16,7 +16,7 @@ public class TokenGrpcClient {
     private final TokenValidatorGrpc.TokenValidatorBlockingStub blockingStub;
 
     public TokenGrpcClient() {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",9090)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",9091)
                 .usePlaintext()
                 .build();
         this.blockingStub = TokenValidatorGrpc.newBlockingStub(channel);
