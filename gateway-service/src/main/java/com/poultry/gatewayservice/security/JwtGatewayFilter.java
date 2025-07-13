@@ -13,38 +13,47 @@ import reactor.core.scheduler.Schedulers;
 
 @Component
 public class JwtGatewayFilter implements GlobalFilter {
+
     private final TokenGrpcClient tokenGrpcClient;
 
     public JwtGatewayFilter(TokenGrpcClient tokenGrpcClient) {
         this.tokenGrpcClient = tokenGrpcClient;
     }
 
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
+        String path = request.getPath().toString();
 
-        if (request.getPath().toString().startsWith("/api/v1/auth")) {
+        // Allow public endpoints
+        if (path.startsWith("/api/v1/auth")) {
             return chain.filter(exchange);
         }
 
+        // Validate Authorization header
         String authHeader = request.getHeaders().getFirst("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return  exchange.getResponse().setComplete();
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
         }
 
-        return Mono.fromCallable(() -> tokenGrpcClient.validateToken(authHeader.substring(7)))
+        String token = authHeader.substring(7);
+
+        return Mono.fromCallable(() -> tokenGrpcClient.validateToken(token))
                 .subscribeOn(Schedulers.boundedElastic())
-                .flatMap(claims ->  {
+                .flatMap(claims -> {
+                    String id = claims.getOrDefault("id", "");
+                    String roles = claims.getOrDefault("roles", "");
+
                     ServerHttpRequest mutatedRequest = request.mutate()
-                            .header("X-Id", claims.get("id"))
-                            .header("X-Roles", claims.get("roles"))
+                            .header("X-Id", id)
+                            .header("X-Roles", roles)
                             .build();
 
                     return chain.filter(exchange.mutate().request(mutatedRequest).build());
                 })
-                .onErrorResume(e -> {
-                    exchange.getResponse().setRawStatusCode(HttpStatus.UNAUTHORIZED.value());
+                .onErrorResume(ex -> {
+                    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                     return exchange.getResponse().setComplete();
                 });
     }
