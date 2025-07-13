@@ -3,6 +3,7 @@ package com.poultry.authservice.service;
 import com.poultry.authservice.UserResponse;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +72,7 @@ public class JwtServiceImpl implements JwtService {
         try {
             Claims claim = getClaimsFromToken(token);
             return claim.getExpiration().after(new Date());
-        } catch (Exception ex) {
+        } catch (JwtException ex) {
             return false;
         }
     }
