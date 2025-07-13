@@ -68,17 +68,18 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public boolean isValidToken(String token) {
-
+        Claims claim = getClaimsFromToken(token);
+        return claim.getExpiration().after(new Date());
     }
 
     @Override
     public String extractUserId(String token) {
-        return "";
+        return getClaimsFromToken(token).getSubject();
     }
 
     @Override
     public String extractRole(String token) {
-        return "";
+        return getClaimsFromToken(token).get("roles", String.class);
     }
 
 
