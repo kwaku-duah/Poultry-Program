@@ -28,11 +28,12 @@ public class UserServiceServer extends UserServiceGrpc.UserServiceImplBase {
 
         UserResponse response = UserResponse.newBuilder()
                 .setId(user.getId())
-                .setEmail(user.getEmail())
+                .setFullName(user.getFullName())
                 .setPassword(user.getPassword())
+                .setEmail(user.getEmail())
                 .addAllRoles(
                         user.getRoles().stream()
-                                .map(role -> com.poultry.userservice.Role.valueOf(role.name()))
+                                .map(role -> Role.valueOf(role.name()))
                                 .collect(Collectors.toList())
                 )
                 .build();
