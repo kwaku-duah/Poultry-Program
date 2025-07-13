@@ -22,7 +22,7 @@ public class TokenGrpcClient {
         this.blockingStub = TokenValidatorGrpc.newBlockingStub(channel);
     }
 
-    public Map< String, String> validateToken(String token) {
+    public Map<String, String> validateToken(String token) {
         TokenRequest request = TokenRequest.newBuilder().setToken(token).build();
         TokenResponse response = blockingStub.validateToken(request);
         return Map.of(
