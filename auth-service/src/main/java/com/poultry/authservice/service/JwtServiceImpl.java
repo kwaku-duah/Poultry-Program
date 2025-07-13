@@ -35,7 +35,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateAccessToken(UserResponse user) {
 
-        System.out.println("TEST TEST TEST TEST " + user.getAllFields());
+
         return Jwts.builder()
                 .subject(String.valueOf(user.getId()))
                 .claim("roles", user.getRolesList().stream()

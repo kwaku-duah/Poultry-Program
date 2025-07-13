@@ -26,7 +26,7 @@ public class AuthController {
         String refreshToken = jwtService.generateRefreshToken(user);
 
         return  new LoginResponseDto (
-                user.getId(), user.getfullName(),user.getEmail(),new HashSet<>(user.getRolesList()),accessToken, refreshToken
+                user.getId(), user.getFullName(),user.getEmail(),new HashSet<>(user.getRolesList()),accessToken, refreshToken
         );
 
     }
