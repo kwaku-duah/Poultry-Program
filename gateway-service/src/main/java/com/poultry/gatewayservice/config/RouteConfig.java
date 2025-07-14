@@ -12,8 +12,9 @@ public class RouteConfig {
     @Bean
     public RouteLocator customRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("test_route", r -> r.path("/api/v1/auth/**")
-                        .uri("http://localhost:8084"))
+                .route("auth-service", r -> r
+                        .path("/api/v1/auth/**", "/v1/test/see")
+                        .uri("lb://AUTH-SERVICE"))
                 .build();
     }
 }
