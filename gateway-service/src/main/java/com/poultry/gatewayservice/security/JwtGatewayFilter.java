@@ -31,7 +31,7 @@ public class JwtGatewayFilter implements GlobalFilter, Ordered {
         String path = request.getPath().toString();
         System.out.println("[JwtGatewayFilter] >> Request path: " + path);
 
-        if (path.startsWith("/api/v1/auth")) {
+        if (path.startsWith("/api/v1/auth") || path.startsWith("/api/v1/users")) {
             System.out.println("[JwtGatewayFilter] >> Public endpoint, skipping auth");
             return chain.filter(exchange);
         }
