@@ -84,9 +84,13 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String extractRole(String token) {
-        return getClaimsFromToken(token).get("roles", String.class);
+        Claims claims = getClaimsFromToken(token);
+
+        List<String> rolesList = ((List<?>) claims.get("roles")).stream()
+                .map(Object::toString)
+                .toList();
+
+        return String.join(",", rolesList);
     }
-
-
 }
 
