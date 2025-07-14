@@ -34,4 +34,18 @@ public class WorkController {
 
     }
 
+    @GetMapping("/real")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> extractHeader(HttpServletRequest request) {
+        String userId = request.getHeader("X-Id");
+        String roles = request.getHeader("X-Roles");
+
+        System.out.println("User ID from header: " + userId);
+        System.out.println("Roles from header: " + roles);
+
+        return ResponseEntity.ok(
+                "User ID: " + userId + ", Roles: " + roles
+        );
+
+    }
 }
