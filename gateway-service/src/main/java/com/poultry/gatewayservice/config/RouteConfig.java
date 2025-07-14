@@ -13,8 +13,11 @@ public class RouteConfig {
     public RouteLocator customRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("auth-service", r -> r
-                        .path("/api/v1/auth/**", "/v1/test/see")
+                        .path("/api/v1/auth/**", "/v1/test/see/**")
                         .uri("lb://AUTH-SERVICE"))
+                .route("user-service", r -> r
+                        .path("/api/v1/users/**")
+                        .uri("lb://USER-SERVICE"))
                 .build();
     }
 }

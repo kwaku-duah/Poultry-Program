@@ -13,12 +13,12 @@ import java.util.HashSet;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     private final AuthService authService;
     private final JwtService jwtService;
 
-    @PostMapping("/auth")
+    @PostMapping
     public LoginResponseDto getUser(@RequestBody LoginRequest loginRequest) {
        UserResponse user = authService.fullUser(loginRequest);
 

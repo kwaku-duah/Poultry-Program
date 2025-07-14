@@ -11,6 +11,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GenericErrorResponse> handleGenericError(Exception ex) {
+        System.out.println(ex.getMessage());
         GenericErrorResponse response = new GenericErrorResponse("Something went wrong, please contact support", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
