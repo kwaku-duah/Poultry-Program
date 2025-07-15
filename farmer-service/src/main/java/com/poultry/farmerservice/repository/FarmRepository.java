@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface FarmRepository extends JpaRepository<Farmer,Long> {
     boolean existsByFarmerId(String farmerId);
     Optional<Farmer> findByFarmerId(String farmerId);
+    void deleteByFarmerId(String farmerId);
 }
