@@ -10,6 +10,7 @@ import com.poultry.farmerservice.repository.CoopRepository;
 import com.poultry.farmerservice.repository.FarmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,30 +29,50 @@ public class CoopServiceImpl implements CoopService {
                 .orElseThrow(()-> new ResourceNotFoundException("Farmer with id " + farmerId + " not found"));
 
         int coopCount = coopRepository.coupCount_ByFarmerId(farmerId);
-        String coopName = "Coop " + coopCount;
+        String coopName = "Coop " + (coopCount + 1);
         Coop coop = coopMapper.toEntity(coopRequestDto);
         coop.setFarmer(farmer);
         coop.setCoopName(coopName);
         coopRepository.save(coop);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CoopResponseDto> getAllCoops(String farmerId) {
+        List<Coop> coops = coopRepository.findByFarmer_FarmerId(farmerId);
+        return coops.stream().map(coopMapper::toCoopResponseDto).toList();
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CoopResponseDto specificCoop(String farmerId, Long id) {
-        return null;
+        Coop coop = coopRepository.findByIdAndFarmerId_FarmerId(id,farmerId)
+                .orElseThrow(()-> new ResourceNotFoundException("Coop with id " + id + " not found"));
+
+        return coopMapper.toCoopResponseDto(coop);
     }
 
+    @Transactional
     @Override
     public void updateCoop(Long id, String farmerId, CoopRequestDto coopRequestDto) {
-
+        Coop coop = coopRepository.findByIdAndFarmerId_FarmerId(id, farmerId)
+                .orElseThrow(()-> new ResourceNotFoundException("Coop with id " + id + " not found for update"));
+        coop.setBreedName(coopRequestDto.breedName());
+        coop.setBreedType(coopRequestDto.breedType());
+        coop.setDateHatched(coopRequestDto.dateHatched());
+        coop.setNumberOfBirds(coopRequestDto.numberOfBirds());
+        coop.setUnitPrice(coopRequestDto.unitPrice());
+        coopRepository.save(coop);
     }
 
+    @Transactional
     @Override
     public void deleteCoop(Long id, String farmerId) {
+        Coop coop = coopRepository.findByIdAndFarmerId_FarmerId(id, farmerId)
+                .orElseThrow(()-> new ResourceNotFoundException("Farmer with id " + farmerId + " not found"));
+        coopRepository.delete(coop);
+
 
     }
 }
