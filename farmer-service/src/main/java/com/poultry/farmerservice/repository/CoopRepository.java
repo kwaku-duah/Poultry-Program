@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CoopRepository extends JpaRepository<Coop, Long> {
-    int coupCount_ByFarmerId(String farmerId);
+    int countByFarmer_FarmerId(String farmerId);
     Optional<Coop> findByIdAndFarmerId_FarmerId(Long id, String farmerId);
     List<Coop> findByFarmer_FarmerId(String farmerId);
 

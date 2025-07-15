@@ -28,7 +28,7 @@ public class CoopServiceImpl implements CoopService {
         Farmer farmer = farmRepository.findByFarmerId(farmerId)
                 .orElseThrow(()-> new ResourceNotFoundException("Farmer with id " + farmerId + " not found"));
 
-        int coopCount = coopRepository.coupCount_ByFarmerId(farmerId);
+        int coopCount = coopRepository.countByFarmer_FarmerId(farmerId);
         String coopName = "Coop " + (coopCount + 1);
         Coop coop = coopMapper.toEntity(coopRequestDto);
         coop.setFarmer(farmer);
