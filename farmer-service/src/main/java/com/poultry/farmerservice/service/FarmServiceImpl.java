@@ -39,7 +39,9 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public void updateFarmer(String farmerId, FarmRequestDto farmRequestDto) {
+        if (!farmRepository.existsByFarmerId(farmerId)) {
 
+        }
     }
 
     @Override
