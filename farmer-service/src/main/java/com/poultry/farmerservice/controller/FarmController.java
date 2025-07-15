@@ -28,10 +28,25 @@ public class FarmController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
-    };
+    }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public  ResponseEntity<List<FarmResponseDto>> getAllFarmers() {
         return ResponseEntity.ok(farmService.getAllFarmers());
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PutMapping
+    public ResponseEntity<Void> updateFarmer(@RequestHeader("X-Id") String farmerId, @Valid @RequestBody FarmRequestDto farmRequestDto) {
+        farmService.updateFarmer(farmerId, farmRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteFarmer(@RequestHeader("X-Id") String farmerId) {
+        farmService.deleteFarmer(farmerId);
+        return ResponseEntity.noContent().build();
     }
 }
