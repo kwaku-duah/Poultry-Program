@@ -14,5 +14,5 @@ public interface FarmMapper {
     @Mapping(target = "coops", expression = "java(new ArrayList<>())")
     Farmer toEntity(FarmRequestDto farmRequestDto);
 
-
+    FarmRequestDto toFarmRequestDto(Farmer farmer);
 }
