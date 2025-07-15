@@ -2,6 +2,7 @@ package com.poultry.farmerservice.mapper;
 
 
 import com.poultry.farmerservice.dto.FarmRequestDto;
+import com.poultry.farmerservice.dto.FarmResponseDto;
 import com.poultry.farmerservice.entity.Farmer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,5 +15,5 @@ public interface FarmMapper {
     @Mapping(target = "coops", expression = "java(new ArrayList<>())")
     Farmer toEntity(FarmRequestDto farmRequestDto);
 
-    FarmRequestDto toFarmRequestDto(Farmer farmer);
+    FarmResponseDto farmResponseDto(Farmer farmer);
 }
