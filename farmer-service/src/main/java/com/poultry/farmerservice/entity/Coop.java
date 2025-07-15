@@ -1,35 +1,24 @@
 package com.poultry.farmerservice.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
-@Table(name = "farmers")
+@Table(name = "coops")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Farmer {
+public class Coop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String farmerId;
+    private String breedName;
 
-    private String farmName;
-
-    private String phoneNumber;
-
-    private String location;
-
-    private String GPSAddress;
-
-    private List<Coop> coops;
+    private BreedType breedType;
 }
