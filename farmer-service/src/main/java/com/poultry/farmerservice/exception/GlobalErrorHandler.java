@@ -12,6 +12,7 @@ public class GlobalErrorHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GeneralErrorResponse> genericErrorHandler(Exception ex) {
+        ex.printStackTrace();
         GeneralErrorResponse response = new GeneralErrorResponse("Something went wrong, contact support", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
