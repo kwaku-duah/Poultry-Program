@@ -33,7 +33,7 @@ public class Coop {
     private BigDecimal unitPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "farmer_id")
+    @JoinColumn(name = "farmer_id", referencedColumnName = "farmerId")
     private Farmer farmer;
 
 
