@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record CoopResponseDto(
+        String coopName,
         String breedName,
         BreedType breedType,
         LocalDate dateHatched,

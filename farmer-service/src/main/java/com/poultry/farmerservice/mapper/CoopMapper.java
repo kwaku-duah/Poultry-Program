@@ -11,6 +11,7 @@ public interface CoopMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "farmer", ignore = true)
+    @Mapping(target = "coopName", ignore = true)
     Coop toEntity(CoopRequestDto coopRequestDto);
 
     CoopResponseDto toCoopResponseDto(Coop coop);
