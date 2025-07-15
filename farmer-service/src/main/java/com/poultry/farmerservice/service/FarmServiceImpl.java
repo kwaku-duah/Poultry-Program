@@ -3,6 +3,8 @@ package com.poultry.farmerservice.service;
 import com.poultry.farmerservice.dto.FarmRequestDto;
 import com.poultry.farmerservice.dto.FarmResponseDto;
 import com.poultry.farmerservice.entity.Farmer;
+import com.poultry.farmerservice.exception.DuplicateResourceException;
+import com.poultry.farmerservice.mapper.FarmMapper;
 import com.poultry.farmerservice.repository.FarmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,18 @@ public class FarmServiceImpl implements FarmService {
 
 
     private final FarmRepository farmRepository;
+    private final FarmMapper farmMapper;
 
     @Override
     public void createFarmer(String farmerId, FarmRequestDto farmRequestDto) {
-        Farmer farmer = farmRepository.findByFarmerId(farmerId)
-                .orElseThrow(() -> new RuntimeException())
+       if (farmRepository.existsByFarmerId(farmerId)) {
+           throw new DuplicateResourceException("Farmer with " + farmerId + " already exists");
+       }
+
+       Farmer farmer = farmMapper.toEntity(farmRequestDto);
+       farmer.setFarmerId(farmerId);
+       farmRepository.save(farmer);
+
     }
 
     @Override
