@@ -7,15 +7,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
-@DiscriminatorValue("MORTALITY")
+@DiscriminatorValue("FINANCIALS")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MortalityRecord extends CoupActivity {
-    private Integer numberOfDeaths;
-    private String reason;
-    private String report;
+public class FinancialRecord extends CoupActivity {
+    private String itemName;
+    private BigDecimal amount;
+    private String description;
 
 }

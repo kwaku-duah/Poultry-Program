@@ -3,8 +3,7 @@ package com.poultry.farmerservice.entity.coupactivity;
 
 import com.poultry.farmerservice.entity.Coop;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +12,8 @@ import java.time.LocalDateTime;
 @DiscriminatorColumn(name = "activity_type")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class CoupActivity {
 
     @Id
