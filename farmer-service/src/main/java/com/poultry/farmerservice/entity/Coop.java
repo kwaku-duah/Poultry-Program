@@ -21,15 +21,20 @@ public class Coop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String breedName;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private BreedType breedType;
 
+    @Column(nullable = false)
     private LocalDate dateHatched;
 
+    @Column(nullable = false)
     private Integer numberOfBirds;
 
+    @Column(nullable = false)
     private BigDecimal unitPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
