@@ -19,7 +19,7 @@ public class RouteConfig {
                         .path("/api/v1/users/**")
                         .uri("lb://USER-SERVICE"))
                 .route("farmer-service", r -> r
-                        .path("/api/v1/farmers/**")
+                        .path("/api/v1/farmers/**", "/api/v1/coops/**")
                         .uri("lb://FARMER-SERVICE"))
                 .build();
     }
