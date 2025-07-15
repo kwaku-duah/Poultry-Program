@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "coops")
 @Getter
@@ -20,5 +23,18 @@ public class Coop {
 
     private String breedName;
 
+    @Enumerated(EnumType.STRING)
     private BreedType breedType;
+
+    private LocalDate dateHatched;
+
+    private Integer numberOfBirds;
+
+    private BigDecimal unitPrice;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "farmer_id")
+    private Farmer farmer;
+
+
 }

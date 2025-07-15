@@ -31,5 +31,6 @@ public class Farmer {
 
     private String GPSAddress;
 
+    @OneToMany(mappedBy = "farmer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Coop> coops;
 }
