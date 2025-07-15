@@ -56,7 +56,7 @@ public class FarmServiceImpl implements FarmService {
     @Transactional
     @Override
     public void deleteFarmer(String farmerId) {
-       if (farmRepository.existsByFarmerId(farmerId)) {
+       if (!farmRepository.existsByFarmerId(farmerId)) {
            throw new ResourceNotFoundException("Farmer with " + farmerId + " does not exist");
        }
 
