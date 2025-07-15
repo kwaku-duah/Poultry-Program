@@ -14,4 +14,10 @@ public class GlobalErrorHandler {
         GeneralErrorResponse response = new GeneralErrorResponse("Something went wrong, contact support", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<GeneralErrorResponse> duplicateErrorHandler(DuplicateResourceException ex) {
+        GeneralErrorResponse response = new GeneralErrorResponse(ex.getMessage(), HttpStatus.CONFLICT.value());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
 }

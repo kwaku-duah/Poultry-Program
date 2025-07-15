@@ -2,6 +2,7 @@ package com.poultry.farmerservice.service;
 
 import com.poultry.farmerservice.dto.FarmRequestDto;
 import com.poultry.farmerservice.dto.FarmResponseDto;
+import com.poultry.farmerservice.entity.Farmer;
 import com.poultry.farmerservice.repository.FarmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,8 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public void createFarmer(String farmerId, FarmRequestDto farmRequestDto) {
-
+        Farmer farmer = farmRepository.findByFarmerId(farmerId)
+                .orElseThrow(() -> new RuntimeException())
     }
 
     @Override
