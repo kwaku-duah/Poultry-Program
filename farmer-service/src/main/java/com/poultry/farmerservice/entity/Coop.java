@@ -1,5 +1,6 @@
 package com.poultry.farmerservice.entity;
 
+import com.poultry.farmerservice.entity.coupactivity.CoupActivity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "coops")
@@ -43,6 +46,9 @@ public class Coop {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farmer_id", referencedColumnName = "farmerId")
     private Farmer farmer;
+
+    @OneToMany(mappedBy = "coop", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CoupActivity> coopActivities = new ArrayList<>();
 
 
 }
