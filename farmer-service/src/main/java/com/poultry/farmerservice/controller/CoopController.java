@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,10 @@ import java.util.List;
 public class CoopController {
 
     private final CoopService coopService;
+/**  ideally should be role FARMER, would be updated later
+ * */
 
-
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     public ResponseEntity<Void> createCoop(
             @RequestHeader("X-Id") String farmerId,
@@ -28,12 +31,14 @@ public class CoopController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public ResponseEntity<List<CoopResponseDto>> getAllCoops(
             @RequestHeader("X-Id") String farmerId) {
         return ResponseEntity.ok(coopService.getAllCoops(farmerId));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<CoopResponseDto> getSingleCoop(
             @RequestHeader("X-Id") String farmerId,
@@ -41,6 +46,7 @@ public class CoopController {
         return ResponseEntity.ok(coopService.specificCoop(farmerId, id));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateCoop(
             @RequestHeader("X-Id") String farmerId,
@@ -50,6 +56,7 @@ public class CoopController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCoop(
             @RequestHeader("X-Id") String farmerId,
