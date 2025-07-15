@@ -33,7 +33,8 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public List<FarmResponseDto> getAllFarmers() {
-        return List.of();
+        return farmRepository.findAll().stream().map(farmMapper::farmResponseDto).toList();
+
     }
 
     @Override
