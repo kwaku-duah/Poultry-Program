@@ -6,6 +6,7 @@ import com.poultry.farmerservice.dto.coopactivitydto.ScheduleResponseDto;
 import com.poultry.farmerservice.service.coopactivity.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class ScheduleController {
     public ResponseEntity<Void> create(@RequestHeader("X-Id") String farmerId,
                                        @Valid @RequestBody ScheduleRequestDto dto) {
         scheduleService.addSchedule(farmerId, dto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PreAuthorize("hasRole('USER')")
