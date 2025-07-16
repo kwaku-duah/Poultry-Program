@@ -9,28 +9,28 @@ import org.mapstruct.Mapping;
 public interface CoopActivityMapper {
 
     @Mapping(target = "id", ignore = true)
-    EggsRecord toEntity(EggRequestDto eggRequestDto);
+    EggsRecord toEggEntity(EggRequestDto eggRequestDto);
 
-    EggRequestDto toDto(EggsRecord eggsRecord);
-
-    @Mapping(target = "id", ignore = true)
-    FinancialRecord toEntity(FinancialRequestDto financialRequestDto);
-
-    FinancialRequestDto toDto(FinancialRecord financialRecord);
+    EggResponseDto toEggDto(EggsRecord eggsRecord);
 
     @Mapping(target = "id", ignore = true)
-    MortalityRecord toEntity(MortalityRequestDto mortalityRequestDto);
+    FinancialRecord toFinancialEntity(FinancialRequestDto financialRequestDto);
 
-    MortalityRequestDto toDto(MortalityRecord mortalityRecord);
-
-    @Mapping(target = "id", ignore = true)
-    ScheduleRecord toEntity(ScheduleRequestDto scheduleRequestDto);
-
-    ScheduleRequestDto toDto(ScheduleRecord scheduleRecord);
+    FinancialResponseDto toFinancialDto(FinancialRecord financialRecord);
 
     @Mapping(target = "id", ignore = true)
-    VaccineRecord toEntity(VaccineRequestDto vaccineRequestDto);
+    MortalityRecord toMortalityEntity(MortalityRequestDto mortalityRequestDto);
 
-    VaccineRequestDto toDto(VaccineRecord vaccineRecord);
+    MortalityResponseDto toDto(MortalityRecord mortalityRecord);
+
+    @Mapping(target = "id", ignore = true)
+    ScheduleRecord toScheduledEntity(ScheduleRequestDto scheduleRequestDto);
+
+    ScheduleResponseDto toScheduleDto(ScheduleRecord scheduleRecord);
+
+    @Mapping(target = "id", ignore = true)
+    VaccineRecord toVaccineEntity(VaccineRequestDto vaccineRequestDto);
+
+    VaccineResponseDto toVaccineDto(VaccineRecord vaccineRecord);
 
 }
