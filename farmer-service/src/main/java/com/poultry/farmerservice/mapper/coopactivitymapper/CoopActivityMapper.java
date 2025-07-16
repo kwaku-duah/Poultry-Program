@@ -21,7 +21,7 @@ public interface CoopActivityMapper {
     @Mapping(target = "id", ignore = true)
     MortalityRecord toMortalityEntity(MortalityRequestDto mortalityRequestDto);
 
-    MortalityResponseDto toDto(MortalityRecord mortalityRecord);
+    MortalityResponseDto toMortalityDto(MortalityRecord mortalityRecord);
 
     @Mapping(target = "id", ignore = true)
     ScheduleRecord toScheduledEntity(ScheduleRequestDto scheduleRequestDto);
