@@ -7,11 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @DiscriminatorValue("SCHEDULE")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Schedule extends CoupActivity {
+public class ScheduleRecord extends CoupActivity {
+    String title;
+    String description;
+    LocalDate startDate;
 }
