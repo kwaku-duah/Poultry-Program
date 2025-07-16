@@ -1,4 +1,4 @@
-package com.poultry.farmerservice.dto.coopactivitymapper;
+package com.poultry.farmerservice.dto.coopactivitydto;
 
 import java.time.LocalDateTime;
 
