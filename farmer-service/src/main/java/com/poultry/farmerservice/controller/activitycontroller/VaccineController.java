@@ -6,6 +6,7 @@ import com.poultry.farmerservice.dto.coopactivitydto.VaccineResponseDto;
 import com.poultry.farmerservice.service.coopactivity.VaccineService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class VaccineController {
     public ResponseEntity<Void> create(@RequestHeader("X-Id") String farmerId,
                                        @Valid @RequestBody VaccineRequestDto dto) {
         vaccineService.addVaccineRecord(farmerId, dto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PreAuthorize("hasRole('USER')")
