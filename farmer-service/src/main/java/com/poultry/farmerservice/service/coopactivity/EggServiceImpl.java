@@ -8,7 +8,6 @@ import com.poultry.farmerservice.exception.ResourceNotFoundException;
 import com.poultry.farmerservice.mapper.coopactivitymapper.CoopActivityMapper;
 import com.poultry.farmerservice.repository.CoopRepository;
 import com.poultry.farmerservice.repository.EggRecordRepository;
-import com.poultry.farmerservice.repository.FarmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +19,15 @@ import java.util.List;
 public class EggServiceImpl implements EggService {
 
     private final EggRecordRepository eggRecordRepository;
-    private final FarmRepository farmRepository;
     private final CoopRepository coopRepository;
     private final CoopActivityMapper coopMapper;
 
     @Transactional
     @Override
     public void addEggRecord(String farmerId, EggRequestDto eggRequestDto) {
-        Coop coop = coopRepository.findByIdAndFarmerId_FarmerId(eggRequestDto.coopId(),farmerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Coop with " + eggRequestDto.coopId() + " not found"));
+        Coop coop = coopRepository.findByIdAndFarmer_FarmerId(eggRequestDto.coopId(),farmerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Egg record not found for coopId: " + eggRequestDto.coopId() + " and farmerId: " + farmerId
+                ));
         EggsRecord record = coopMapper.toEggEntity(eggRequestDto);
         record.setCoop(coop);
         eggRecordRepository.save(record);
@@ -54,11 +53,11 @@ public class EggServiceImpl implements EggService {
         eggRecordRepository.save(record);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional()
     @Override
     public void deleteEggRecord(Long id, Long coopId, String farmerId) {
         EggsRecord record = eggRecordRepository.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id,coopId,farmerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Coop with " + coopId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Egg record not found for coopId: " + coopId + " and farmerId: " + farmerId));
         eggRecordRepository.delete(record);
     }
 }

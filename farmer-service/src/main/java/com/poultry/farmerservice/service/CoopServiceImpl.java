@@ -47,7 +47,7 @@ public class CoopServiceImpl implements CoopService {
     @Transactional(readOnly = true)
     @Override
     public CoopResponseDto specificCoop(String farmerId, Long id) {
-        Coop coop = coopRepository.findByIdAndFarmerId_FarmerId(id,farmerId)
+        Coop coop = coopRepository.findByIdAndFarmer_FarmerId(id,farmerId)
                 .orElseThrow(()-> new ResourceNotFoundException("Coop with id " + id + " not found"));
 
         return coopMapper.toCoopResponseDto(coop);
@@ -56,7 +56,7 @@ public class CoopServiceImpl implements CoopService {
     @Transactional
     @Override
     public void updateCoop(Long id, String farmerId, CoopRequestDto coopRequestDto) {
-        Coop coop = coopRepository.findByIdAndFarmerId_FarmerId(id, farmerId)
+        Coop coop = coopRepository.findByIdAndFarmer_FarmerId(id, farmerId)
                 .orElseThrow(()-> new ResourceNotFoundException("Coop with id " + id + " not found for update"));
         coop.setBreedName(coopRequestDto.breedName());
         coop.setBreedType(coopRequestDto.breedType());
@@ -69,7 +69,7 @@ public class CoopServiceImpl implements CoopService {
     @Transactional
     @Override
     public void deleteCoop(Long id, String farmerId) {
-        Coop coop = coopRepository.findByIdAndFarmerId_FarmerId(id, farmerId)
+        Coop coop = coopRepository.findByIdAndFarmer_FarmerId(id, farmerId)
                 .orElseThrow(()-> new ResourceNotFoundException("Farmer with id " + farmerId + " not found"));
         coopRepository.delete(coop);
 

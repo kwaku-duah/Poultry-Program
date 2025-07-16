@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface CoopRepository extends JpaRepository<Coop, Long> {
     int countByFarmer_FarmerId(String farmerId);
-    Optional<Coop> findByIdAndFarmerId_FarmerId(Long id, String farmerId);
+    Optional<Coop> findByIdAndFarmer_FarmerId(Long id, String farmerId);
     List<Coop> findByFarmer_FarmerId(String farmerId);
 
 
