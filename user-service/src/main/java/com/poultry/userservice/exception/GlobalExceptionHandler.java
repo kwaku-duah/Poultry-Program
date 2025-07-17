@@ -15,6 +15,15 @@ public class GlobalExceptionHandler {
        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(handler);
     }
 
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<GeneralErrorResponseHandler> errorHandler(NumberFormatException ex) {
+        GeneralErrorResponseHandler handler = new GeneralErrorResponseHandler("Invalid UserId format, please contact support", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(handler);
+    }
+
+
+
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<GeneralErrorResponseHandler> resourceNotFoundHandler(ResourceNotFoundException ex) {
         GeneralErrorResponseHandler handler = new GeneralErrorResponseHandler(ex.getMessage(), HttpStatus.NOT_FOUND.value());
