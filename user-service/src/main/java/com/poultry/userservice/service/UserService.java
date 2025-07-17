@@ -6,5 +6,5 @@ import com.poultry.userservice.dto.UserRequest;
 
 public interface UserService {
     void addUser(UserRequest request);
-    void addFarmer();
+    void addFarmer(Long userId);
 }
