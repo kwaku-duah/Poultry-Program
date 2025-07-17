@@ -25,14 +25,14 @@ public class UpgradeController {
     @PostMapping("/vet")
     public ResponseEntity<ApiResponse> updateVet(@RequestHeader("X-Id") String userIdHeader) {
         Long userId = Long.parseLong(userIdHeader);
-        userService.addFarmer(userId);
-        return ResponseEntity.ok(new ApiResponse("User Role Upgraded Successfully To Farmer"));
+        userService.addVet(userId);
+        return ResponseEntity.ok(new ApiResponse("User Role Upgraded Successfully To Vet"));
     };
 
     @PostMapping("/supplier")
     public ResponseEntity<ApiResponse> updateSupplier(@RequestHeader("X-Id") String userIdHeader) {
         Long userId = Long.parseLong(userIdHeader);
-        userService.addFarmer(userId);
-        return ResponseEntity.ok(new ApiResponse("User Role Upgraded Successfully To Farmer"));
+        userService.addSupplier(userId);
+        return ResponseEntity.ok(new ApiResponse("User Role Upgraded Successfully To Supplier"));
     };
 }
