@@ -52,4 +52,26 @@ public class UserServiceImpl implements UserService{
             userRepository.save(user);
         }
     }
+
+    @Transactional
+    @Override
+    public void addVet(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with id " + userId + " not found"));
+
+        if(!user.getRoles().contains(Role.ROLE_VET)) {
+            user.setRoles(EnumSet.of(Role.ROLE_VET));
+            userRepository.save(user);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void addSupplier(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with id " + userId + " not found"));
+
+        if(!user.getRoles().contains(Role.ROLE_SUPPLIER)) {
+            user.setRoles(EnumSet.of(Role.ROLE_SUPPLIER));
+            userRepository.save(user);
+        }
+    }
 }

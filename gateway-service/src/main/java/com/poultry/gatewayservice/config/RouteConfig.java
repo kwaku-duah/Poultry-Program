@@ -16,7 +16,7 @@ public class RouteConfig {
                         .path("/api/v1/auth/**", "/v1/test/see/**")
                         .uri("lb://AUTH-SERVICE"))
                 .route("user-service", r -> r
-                        .path("/api/v1/users/**")
+                        .path("/api/v1/users/**", "/api/v1/upgrade/**")
                         .uri("lb://USER-SERVICE"))
                 .route("farmer-service", r -> r
                         .path("/api/v1/farmers/**", "/api/v1/coops/**", "/api/v1/eggs/**",
