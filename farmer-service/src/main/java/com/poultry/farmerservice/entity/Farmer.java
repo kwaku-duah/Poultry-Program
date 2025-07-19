@@ -22,7 +22,7 @@ public class Farmer {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String farmerId;
+    private Long farmerId;
 
     @Column(nullable = false)
     private String farmName;

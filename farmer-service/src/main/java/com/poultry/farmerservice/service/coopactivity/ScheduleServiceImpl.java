@@ -23,7 +23,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     @Override
-    public void addSchedule(String farmerId, ScheduleRequestDto dto) {
+    public void addSchedule(Long farmerId, ScheduleRequestDto dto) {
         Coop coop = coopRepo.findByIdAndFarmer_FarmerId(dto.coopId(), farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Coop not found"));
         ScheduleRecord record = mapper.toScheduledEntity(dto);
@@ -33,14 +33,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ScheduleResponseDto> getSchedules(Long coopId, String farmerId) {
+    public List<ScheduleResponseDto> getSchedules(Long coopId, Long farmerId) {
         return repo.findByCoop_IdAndCoop_Farmer_FarmerId(coopId, farmerId)
                 .stream().map(mapper::toScheduleDto).toList();
     }
 
     @Transactional
     @Override
-    public void updateSchedule(Long id, Long coopId, String farmerId, ScheduleRequestDto dto) {
+    public void updateSchedule(Long id, Long coopId, Long farmerId, ScheduleRequestDto dto) {
         ScheduleRecord record = repo.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId, farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Schedule not found"));
         record.setDate(dto.date());
@@ -53,7 +53,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     @Override
-    public void deleteSchedule(Long id, Long coopId, String farmerId) {
+    public void deleteSchedule(Long id, Long coopId, Long farmerId) {
         ScheduleRecord record = repo.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId, farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Schedule not found"));
         repo.delete(record);

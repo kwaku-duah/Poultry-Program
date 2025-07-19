@@ -23,7 +23,7 @@ public class FinancialServiceImpl implements FinancialService {
 
     @Transactional
     @Override
-    public void addFinancialRecord(String farmerId, FinancialRequestDto requestDto) {
+    public void addFinancialRecord(Long farmerId, FinancialRequestDto requestDto) {
         Coop coop = coopRepository.findByIdAndFarmer_FarmerId(requestDto.coopId(), farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Coop not found for farmer: " + farmerId));
         FinancialRecord record = coopMapper.toFinancialEntity(requestDto);
@@ -33,7 +33,7 @@ public class FinancialServiceImpl implements FinancialService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<FinancialResponseDto> getFinancialRecords(Long coopId, String farmerId) {
+    public List<FinancialResponseDto> getFinancialRecords(Long coopId, Long farmerId) {
         return financialRecordRepository.findByCoop_IdAndCoop_Farmer_FarmerId(coopId, farmerId)
                 .stream()
                 .map(coopMapper::toFinancialDto)
@@ -42,7 +42,7 @@ public class FinancialServiceImpl implements FinancialService {
 
     @Transactional
     @Override
-    public void updateFinancialRecord(Long id, Long coopId, String farmerId, FinancialRequestDto requestDto) {
+    public void updateFinancialRecord(Long id, Long coopId, Long farmerId, FinancialRequestDto requestDto) {
         FinancialRecord record = financialRecordRepository.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId, farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Financial record not found"));
         record.setDate(requestDto.date());
@@ -54,7 +54,7 @@ public class FinancialServiceImpl implements FinancialService {
 
 @Transactional
     @Override
-    public void deleteFinancialRecord(Long id, Long coopId, String farmerId) {
+    public void deleteFinancialRecord(Long id, Long coopId, Long farmerId) {
         FinancialRecord record = financialRecordRepository.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId, farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Financial record not found"));
         financialRecordRepository.delete(record);

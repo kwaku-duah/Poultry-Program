@@ -16,51 +16,54 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/coops")
+@PreAuthorize("hasRole('FARMER')")
 public class CoopController {
 
     private final CoopService coopService;
 /**  ideally should be role FARMER, would be updated later
  * */
 
-    @PreAuthorize("hasRole('USER')")
+
     @PostMapping
     public ResponseEntity<Void> createCoop(
-            @RequestHeader("X-Id") String farmerId,
+            @RequestHeader("X-Id") String farmerHeaderId,
             @Valid @RequestBody CoopRequestDto coopRequestDto) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         coopService.addCoop(farmerId,coopRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public ResponseEntity<List<CoopResponseDto>> getAllCoops(
-            @RequestHeader("X-Id") String farmerId) {
+            @RequestHeader("X-Id") String farmerHeaderId) {
+        Long farmerId =Long.parseLong(farmerHeaderId);
         return ResponseEntity.ok(coopService.getAllCoops(farmerId));
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<CoopResponseDto> getSingleCoop(
-            @RequestHeader("X-Id") String farmerId,
+            @RequestHeader("X-Id") String farmerHeaderId,
             @PathVariable Long id) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         return ResponseEntity.ok(coopService.specificCoop(farmerId, id));
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateCoop(
-            @RequestHeader("X-Id") String farmerId,
+            @RequestHeader("X-Id") String farmerHeaderId,
             @PathVariable Long id,
             @Valid @RequestBody CoopRequestDto coopRequestDto) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         coopService.updateCoop(id, farmerId, coopRequestDto);
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCoop(
-            @RequestHeader("X-Id") String farmerId,
+            @RequestHeader("X-Id") String farmerHeaderId,
             @PathVariable Long id) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         coopService.deleteCoop(id, farmerId);
         return ResponseEntity.noContent().build();
     }

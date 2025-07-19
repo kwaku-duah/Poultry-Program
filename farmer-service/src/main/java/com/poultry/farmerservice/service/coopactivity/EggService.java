@@ -6,12 +6,12 @@ import com.poultry.farmerservice.dto.coopactivitydto.EggResponseDto;
 import java.util.List;
 
 public interface EggService {
-    void addEggRecord(String farmerId, EggRequestDto eggRequestDto);
+    void addEggRecord(Long farmerId, EggRequestDto eggRequestDto);
 
-    List<EggResponseDto> getEggRecords(Long coopId, String farmerId);
+    List<EggResponseDto> getEggRecords(Long coopId, Long farmerId);
 
-    void updateEggRecord(Long id, Long coopId, String farmerId, EggRequestDto eggRequestDto);
+    void updateEggRecord(Long id, Long coopId, Long farmerId, EggRequestDto eggRequestDto);
 
-    void deleteEggRecord(Long id, Long coopId, String farmerId);
+    void deleteEggRecord(Long id, Long coopId, Long farmerId);
 
 }

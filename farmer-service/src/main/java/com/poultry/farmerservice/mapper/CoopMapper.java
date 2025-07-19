@@ -14,5 +14,7 @@ public interface CoopMapper {
     @Mapping(target = "coopName", ignore = true)
     Coop toEntity(CoopRequestDto coopRequestDto);
 
+    @Mapping(target = "coopId", source = "id")
     CoopResponseDto toCoopResponseDto(Coop coop);
+
 }

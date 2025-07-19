@@ -15,37 +15,41 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/farmers")
+@PreAuthorize("hasRole('FARMER')")
 public class FarmController {
     private final FarmService farmService;
 
 
-    @PreAuthorize("hasRole('USER')")
+
     @PostMapping
     public ResponseEntity<Void> addFarmer(
-            @RequestHeader("X-Id") String farmerId,
+            @RequestHeader("X-Id") String farmerHeaderId,
             @Valid @RequestBody FarmRequestDto farmRequestDto) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         farmService.createFarmer(farmerId, farmRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping
-    public  ResponseEntity<List<FarmResponseDto>> getAllFarmers() {
-        return ResponseEntity.ok(farmService.getAllFarmers());
+    public  ResponseEntity<List<FarmResponseDto>> getAllFarmers(@RequestHeader("X-Id") String farmerHeaderId) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
+        return ResponseEntity.ok(farmService.getAllFarmers(farmerId));
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     @PutMapping
-    public ResponseEntity<Void> updateFarmer(@RequestHeader("X-Id") String farmerId, @Valid @RequestBody FarmRequestDto farmRequestDto) {
+    public ResponseEntity<Void> updateFarmer(@RequestHeader("X-Id") String farmerHeaderId, @Valid @RequestBody FarmRequestDto farmRequestDto) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         farmService.updateFarmer(farmerId, farmRequestDto);
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     @DeleteMapping()
-    public ResponseEntity<Void> deleteFarmer(@RequestHeader("X-Id") String farmerId) {
+    public ResponseEntity<Void> deleteFarmer(@RequestHeader("X-Id") String farmerHeaderId) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         farmService.deleteFarmer(farmerId);
         return ResponseEntity.noContent().build();
     }

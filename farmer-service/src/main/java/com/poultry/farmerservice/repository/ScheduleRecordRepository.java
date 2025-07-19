@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleRecordRepository extends JpaRepository<ScheduleRecord, Long> {
-    List<ScheduleRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, String farmerId);
-    Optional<ScheduleRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, String farmerId);
+    List<ScheduleRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, Long farmerId);
+    Optional<ScheduleRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, Long farmerId);
 }

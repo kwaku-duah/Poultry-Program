@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FinancialRecordRepository extends JpaRepository<FinancialRecord, Long> {
-    List<FinancialRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, String farmerId);
+    List<FinancialRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, Long farmerId);
 
-    Optional<FinancialRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, String farmerId);
+    Optional<FinancialRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, Long farmerId);
 }

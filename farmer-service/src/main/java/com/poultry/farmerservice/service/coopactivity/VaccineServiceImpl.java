@@ -23,7 +23,7 @@ public class VaccineServiceImpl implements VaccineService {
 
     @Transactional
     @Override
-    public void addVaccineRecord(String farmerId, VaccineRequestDto dto) {
+    public void addVaccineRecord(Long farmerId, VaccineRequestDto dto) {
         Coop coop = coopRepo.findByIdAndFarmer_FarmerId(dto.coopId(), farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Coop not found"));
         VaccineRecord record = mapper.toVaccineEntity(dto);
@@ -33,14 +33,14 @@ public class VaccineServiceImpl implements VaccineService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<VaccineResponseDto> getVaccineRecords(Long coopId, String farmerId) {
+    public List<VaccineResponseDto> getVaccineRecords(Long coopId, Long farmerId) {
         return vaccineRepo.findByCoop_IdAndCoop_Farmer_FarmerId(coopId, farmerId)
                 .stream().map(mapper::toVaccineDto).toList();
     }
 
     @Transactional
     @Override
-    public void updateVaccineRecord(Long id, Long coopId, String farmerId, VaccineRequestDto dto) {
+    public void updateVaccineRecord(Long id, Long coopId, Long farmerId, VaccineRequestDto dto) {
         VaccineRecord record = vaccineRepo.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId, farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Vaccine record not found"));
         record.setDate(dto.date());
@@ -55,7 +55,7 @@ public class VaccineServiceImpl implements VaccineService {
 
     @Transactional
     @Override
-    public void deleteVaccineRecord(Long id, Long coopId, String farmerId) {
+    public void deleteVaccineRecord(Long id, Long coopId, Long farmerId) {
         VaccineRecord record = vaccineRepo.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId, farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Vaccine record not found"));
         vaccineRepo.delete(record);

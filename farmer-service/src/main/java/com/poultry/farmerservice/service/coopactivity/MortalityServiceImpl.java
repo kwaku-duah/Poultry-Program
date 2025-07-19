@@ -23,7 +23,7 @@ public class MortalityServiceImpl implements MortalityService {
 
     @Transactional
     @Override
-    public void addMortalityRecord(String farmerId, MortalityRequestDto dto) {
+    public void addMortalityRecord(Long farmerId, MortalityRequestDto dto) {
         Coop coop = coopRepo.findByIdAndFarmer_FarmerId(dto.coopId(), farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Coop not found"));
         MortalityRecord record = mapper.toMortalityEntity(dto);
@@ -33,14 +33,14 @@ public class MortalityServiceImpl implements MortalityService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<MortalityResponseDto> getMortalityRecords(Long coopId, String farmerId) {
+    public List<MortalityResponseDto> getMortalityRecords(Long coopId, Long farmerId) {
         return repo.findByCoop_IdAndCoop_Farmer_FarmerId(coopId, farmerId)
                 .stream().map(mapper::toMortalityDto).toList();
     }
 
     @Transactional
     @Override
-    public void updateMortalityRecord(Long id, Long coopId, String farmerId, MortalityRequestDto dto) {
+    public void updateMortalityRecord(Long id, Long coopId, Long farmerId, MortalityRequestDto dto) {
         MortalityRecord record = repo.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId, farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Mortality record not found"));
         record.setDate(dto.date());
@@ -52,7 +52,7 @@ public class MortalityServiceImpl implements MortalityService {
 
     @Transactional
     @Override
-    public void deleteMortalityRecord(Long id, Long coopId, String farmerId) {
+    public void deleteMortalityRecord(Long id, Long coopId, Long farmerId) {
         MortalityRecord record = repo.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId, farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Mortality record not found"));
         repo.delete(record);
