@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface EggRecordRepository extends JpaRepository<EggsRecord, Long> {
 
-    List<EggsRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, String farmerId);
-    Optional<EggsRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, String farmerId);
+    List<EggsRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, Long farmerId);
+    Optional<EggsRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, Long farmerId);
 }

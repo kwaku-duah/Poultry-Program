@@ -24,7 +24,7 @@ public class EggServiceImpl implements EggService {
 
     @Transactional
     @Override
-    public void addEggRecord(String farmerId, EggRequestDto eggRequestDto) {
+    public void addEggRecord(Long farmerId, EggRequestDto eggRequestDto) {
         Coop coop = coopRepository.findByIdAndFarmer_FarmerId(eggRequestDto.coopId(),farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Egg record not found for coopId: " + eggRequestDto.coopId() + " and farmerId: " + farmerId
                 ));
@@ -35,7 +35,7 @@ public class EggServiceImpl implements EggService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<EggResponseDto> getEggRecords(Long coopId, String farmerId) {
+    public List<EggResponseDto> getEggRecords(Long coopId, Long farmerId) {
         return eggRecordRepository.findByCoop_IdAndCoop_Farmer_FarmerId(coopId,farmerId)
                 .stream().map(coopMapper::toEggDto)
                 .toList();
@@ -43,7 +43,7 @@ public class EggServiceImpl implements EggService {
 
     @Transactional(readOnly = true)
     @Override
-    public void updateEggRecord(Long id, Long coopId, String farmerId, EggRequestDto eggRequestDto) {
+    public void updateEggRecord(Long id, Long coopId, Long farmerId, EggRequestDto eggRequestDto) {
         EggsRecord record = eggRecordRepository.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id, coopId,farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Coop with " + eggRequestDto.coopId() + " not found"));
         record.setDate(eggRequestDto.date());
@@ -55,7 +55,7 @@ public class EggServiceImpl implements EggService {
 
     @Transactional()
     @Override
-    public void deleteEggRecord(Long id, Long coopId, String farmerId) {
+    public void deleteEggRecord(Long id, Long coopId, Long farmerId) {
         EggsRecord record = eggRecordRepository.findByIdAndCoop_IdAndCoop_Farmer_FarmerId(id,coopId,farmerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Egg record not found for coopId: " + coopId + " and farmerId: " + farmerId));
         eggRecordRepository.delete(record);

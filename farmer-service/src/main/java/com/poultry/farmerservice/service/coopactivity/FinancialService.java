@@ -6,8 +6,8 @@ import com.poultry.farmerservice.dto.coopactivitydto.FinancialResponseDto;
 import java.util.List;
 
 public interface FinancialService {
-    void addFinancialRecord(String farmerId, FinancialRequestDto requestDto);
-    List<FinancialResponseDto> getFinancialRecords(Long coopId, String farmerId);
-    void updateFinancialRecord(Long id, Long coopId, String farmerId, FinancialRequestDto requestDto);
-    void deleteFinancialRecord(Long id, Long coopId, String farmerId);
+    void addFinancialRecord(Long farmerId, FinancialRequestDto requestDto);
+    List<FinancialResponseDto> getFinancialRecords(Long coopId, Long farmerId);
+    void updateFinancialRecord(Long id, Long coopId, Long farmerId, FinancialRequestDto requestDto);
+    void deleteFinancialRecord(Long id, Long coopId, Long farmerId);
 }

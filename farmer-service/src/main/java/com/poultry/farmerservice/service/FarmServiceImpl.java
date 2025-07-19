@@ -23,7 +23,7 @@ public class FarmServiceImpl implements FarmService {
 
     @Transactional
     @Override
-    public void createFarmer(String farmerId, FarmRequestDto farmRequestDto) {
+    public void createFarmer(Long farmerId, FarmRequestDto farmRequestDto) {
        if (farmRepository.existsByFarmerId(farmerId)) {
            throw new DuplicateResourceException("Farmer with " + farmerId + " already exists");
        }
@@ -36,14 +36,16 @@ public class FarmServiceImpl implements FarmService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<FarmResponseDto> getAllFarmers() {
-        return farmRepository.findAll().stream().map(farmMapper::farmResponseDto).toList();
+    public List<FarmResponseDto> getAllFarmers(Long farmerId) {
+
+        List<Farmer> farm = farmRepository.findAllByFarmerId(farmerId);
+        return farm.stream().map(farmMapper::farmResponseDto).toList();
 
     }
 
     @Transactional
     @Override
-    public void updateFarmer(String farmerId, FarmRequestDto farmRequestDto) {
+    public void updateFarmer(Long farmerId, FarmRequestDto farmRequestDto) {
         if (!farmRepository.existsByFarmerId(farmerId)) {
             throw new ResourceNotFoundException("Farmer with " + farmerId + " does not exist");
         }
@@ -55,7 +57,7 @@ public class FarmServiceImpl implements FarmService {
 
     @Transactional
     @Override
-    public void deleteFarmer(String farmerId) {
+    public void deleteFarmer(Long farmerId) {
        if (!farmRepository.existsByFarmerId(farmerId)) {
            throw new ResourceNotFoundException("Farmer with " + farmerId + " does not exist");
        }

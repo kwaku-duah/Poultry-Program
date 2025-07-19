@@ -5,6 +5,7 @@ import com.poultry.farmerservice.entity.coupactivity.ActivityStatus;
 import java.time.LocalDateTime;
 
 public record ScheduleResponseDto(
+        Long id,
         LocalDateTime date,
         Long coopId,
         String title,

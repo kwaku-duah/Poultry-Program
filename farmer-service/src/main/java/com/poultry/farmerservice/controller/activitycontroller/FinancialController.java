@@ -14,41 +14,46 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/financials")
+@PreAuthorize("hasRole('FARMER')")
 @RequiredArgsConstructor
 public class FinancialController {
 
     private final FinancialService financialService;
 
-    @PreAuthorize("hasRole('USER')")
+
     @PostMapping
-    public ResponseEntity<Void> create(@RequestHeader("X-Id") String farmerId,
+    public ResponseEntity<Void> create(@RequestHeader("X-Id") String farmerHeaderId,
                                        @Valid @RequestBody FinancialRequestDto dto) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         financialService.addFinancialRecord(farmerId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     @GetMapping("/{coopId}")
-    public ResponseEntity<List<FinancialResponseDto>> getAll(@RequestHeader("X-Id") String farmerId,
+    public ResponseEntity<List<FinancialResponseDto>> getAll(@RequestHeader("X-Id") String farmerHeaderId,
                                                              @PathVariable Long coopId) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         return ResponseEntity.ok(financialService.getFinancialRecords(coopId, farmerId));
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     @PutMapping("/{id}/{coopId}")
-    public ResponseEntity<Void> update(@RequestHeader("X-Id") String farmerId,
+    public ResponseEntity<Void> update(@RequestHeader("X-Id") String farmerHeaderId,
                                        @PathVariable Long id,
                                        @PathVariable Long coopId,
                                        @Valid @RequestBody FinancialRequestDto dto) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         financialService.updateFinancialRecord(id, coopId, farmerId, dto);
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     @DeleteMapping("/{id}/{coopId}")
-    public ResponseEntity<Void> delete(@RequestHeader("X-Id") String farmerId,
+    public ResponseEntity<Void> delete(@RequestHeader("X-Id") String farmerHeaderId,
                                        @PathVariable Long id,
                                        @PathVariable Long coopId) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         financialService.deleteFinancialRecord(id, coopId, farmerId);
         return ResponseEntity.noContent().build();
     }

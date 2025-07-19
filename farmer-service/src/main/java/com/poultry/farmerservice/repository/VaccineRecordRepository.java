@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VaccineRecordRepository extends JpaRepository<VaccineRecord, Long> {
-    List<VaccineRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, String farmerId);
-    Optional<VaccineRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, String farmerId);
+    List<VaccineRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, Long farmerId);
+    Optional<VaccineRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, Long farmerId);
 }

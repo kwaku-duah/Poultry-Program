@@ -14,41 +14,44 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/eggs")
+@PreAuthorize("hasRole('FARMER')")
 @RequiredArgsConstructor
 public class EggController {
 
     private final EggService eggService;
 
-    @PreAuthorize("hasRole('USER')")
     @PostMapping
-    public ResponseEntity<Void> create(@RequestHeader("X-Id") String farmerId,
+    public ResponseEntity<Void> create(@RequestHeader("X-Id") String farmerHeaderId,
                                        @Valid @RequestBody EggRequestDto dto) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         eggService.addEggRecord(farmerId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     @GetMapping("/{coopId}")
-    public ResponseEntity<List<EggResponseDto>> getAll(@RequestHeader("X-Id") String farmerId,
+    public ResponseEntity<List<EggResponseDto>> getAll(@RequestHeader("X-Id") String farmerHeaderId,
                                                        @PathVariable Long coopId) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         return ResponseEntity.ok(eggService.getEggRecords(coopId, farmerId));
     }
 
-    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{id}/{coopId}")
-    public ResponseEntity<Void> update(@RequestHeader("X-Id") String farmerId,
+    public ResponseEntity<Void> update(@RequestHeader("X-Id") String farmerHeaderId,
                                        @PathVariable Long id,
                                        @PathVariable Long coopId,
                                        @Valid @RequestBody EggRequestDto dto) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         eggService.updateEggRecord(id, coopId, farmerId, dto);
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     @DeleteMapping("/{id}/{coopId}")
-    public ResponseEntity<Void> delete(@RequestHeader("X-Id") String farmerId,
+    public ResponseEntity<Void> delete(@RequestHeader("X-Id") String farmerHeaderId,
                                        @PathVariable Long id,
                                        @PathVariable Long coopId) {
+        Long farmerId = Long.parseLong(farmerHeaderId);
         eggService.deleteEggRecord(id, coopId, farmerId);
         return ResponseEntity.noContent().build();
     }

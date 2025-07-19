@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MortalityRecordRepository extends JpaRepository<MortalityRecord, Long> {
-    List<MortalityRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, String farmerId);
-    Optional<MortalityRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, String farmerId);
+    List<MortalityRecord> findByCoop_IdAndCoop_Farmer_FarmerId(Long coopId, Long farmerId);
+    Optional<MortalityRecord> findByIdAndCoop_IdAndCoop_Farmer_FarmerId(Long id, Long coopId, Long farmerId);
 }
