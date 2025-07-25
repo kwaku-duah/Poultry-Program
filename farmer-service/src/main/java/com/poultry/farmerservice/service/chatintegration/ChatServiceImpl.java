@@ -23,6 +23,9 @@ public class ChatServiceImpl implements ChatService {
     @Value("${huggingface.chat.api.url}")
     private String apiUrl;
 
+    @Value("${huggingface.api.key}")
+    private String apiKey;
+
     @Value("${huggingface.model}")
     private String model;
 
@@ -44,7 +47,7 @@ public class ChatServiceImpl implements ChatService {
             Map<String, Object> response = webClient.post()
                     .uri(apiUrl)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + System.getenv("HUGGINGFACE_API_KEY"))
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey )
                     .bodyValue(requestPayload)
                     .retrieve()
                     .bodyToMono(Map.class)

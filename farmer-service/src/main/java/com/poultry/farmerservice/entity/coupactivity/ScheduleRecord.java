@@ -16,9 +16,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleRecord extends CoupActivity {
-    String title;
-    String description;
-    LocalDate remindStartDate;
-    ActivityStatus status;
+    private String title;
+    private String description;
+    private LocalDate remindStartDate;
+    private ActivityStatus status;
 
 }
