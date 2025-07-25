@@ -5,11 +5,13 @@ import com.poultry.farmerservice.payload.ChatResponse;
 import com.poultry.farmerservice.service.chatintegration.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/api/v1/chat")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('FARMER')")
 public class ChatController {
 
     private final ChatService chatService;

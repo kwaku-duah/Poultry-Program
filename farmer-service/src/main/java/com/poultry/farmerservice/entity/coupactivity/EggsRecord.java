@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EggsRecord extends CoupActivity {
-    Integer numberOfEggsTrays;
-    Integer numberOfExtraEggs;
+    private Integer numberOfEggsTrays;
+    private Integer numberOfExtraEggs;
     private String reason;
 }
