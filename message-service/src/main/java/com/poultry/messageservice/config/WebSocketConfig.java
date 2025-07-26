@@ -25,8 +25,5 @@ public class WebSocketConfig implements WebSocketConfigurer {
         registry.addHandler(new WebSocketMessageHandler(kafkaTemplate, objectMapper), "/ws").setAllowedOrigins("*");
     }
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
+
 }
