@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files=true;
+option java_outer_classname="MessageServiceProto";
+option java_package="com.poultry.messageservice.grpc";
+
+service MessageService {
+  rpc sendMessage(MessageRequest) returns (MessageResponse);
+}
+
+message MessageRequest {
+  string senderId = 1;
+  string receiverId = 2;
+  string content = 3;
+}
+
+message MessageResponse {
+  string senderId = 1;
+  string receiverId = 2;
+  string content = 3;
+}
+
