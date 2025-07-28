@@ -5,6 +5,7 @@ import com.poultry.messageservice.dto.MessageRequest;
 import com.poultry.messageservice.dto.MessageResponse;
 import com.poultry.messageservice.payload.ApiResponse;
 import com.poultry.messageservice.service.MessageService;
+import com.poultry.messageservice.service.kafka.KafkaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +19,12 @@ import java.util.List;
 @PreAuthorize("hasAnyRole('FARMER', 'VET', 'SUPPLIER')")
 public class MessageController {
     private final MessageService messageService;
+    private final KafkaService kafkaService;
 
     @PostMapping("/send")
     public ResponseEntity<ApiResponse> saveMessage(@RequestBody MessageRequest message) {
         messageService.saveMessage(message);
+        kafkaService.sendMessage(message);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

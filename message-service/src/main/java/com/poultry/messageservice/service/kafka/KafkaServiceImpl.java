@@ -2,7 +2,7 @@ package com.poultry.messageservice.service.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poultry.messageservice.entity.Message;
+import com.poultry.messageservice.dto.MessageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -13,15 +13,16 @@ public class KafkaServiceImpl implements KafkaService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
+    private static final String DEFAULT_TOPIC = "message-topic";
 
 
     @Override
-    public void sendMessage(String topic, Message message) {
+    public void sendMessage(MessageRequest messageRequest) {
         try {
-            kafkaTemplate.send(topic, objectMapper.writeValueAsString(message));
+            String jsonMessage = objectMapper.writeValueAsString(messageRequest);
+            kafkaTemplate.send(DEFAULT_TOPIC, jsonMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to send kafka message", e);
         }
-        catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to send kafka message");
-        };
-
-}};
+    }
+}
