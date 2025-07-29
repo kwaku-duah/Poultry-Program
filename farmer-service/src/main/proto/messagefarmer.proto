@@ -8,8 +8,9 @@ option java_package="com.poultry.farmerservice.grpc";
 
 
 service MessageFarmer {
-  rpc messageVet(MessageRequest) returns (MessageResponse);
+  rpc sendMessage(MessageRequest) returns (MessageResponse);
 }
+
 
 
 message MessageRequest {
