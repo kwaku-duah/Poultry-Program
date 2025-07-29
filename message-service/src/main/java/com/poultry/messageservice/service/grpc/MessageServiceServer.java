@@ -25,11 +25,24 @@ public class MessageServiceServer extends MessageServiceGrpc.MessageServiceImplB
     @Override
     public void sendMessage(MessageRequest request, StreamObserver<MessageResponse> responseObserver) {
 
-        MessageRequest dto = MessageRequest.newBuilder()
+
+        com.poultry.messageservice.dto.MessageRequest dto = new com.poultry.messageservice.dto.MessageRequest(
+                request.getSenderId(),
+                request.getReceiverId(),
+                request.getContent()
+        );
+        messageService.saveMessage(dto);
+        kafkaService.sendMessage(dto);
+
+        MessageResponse response = MessageResponse.newBuilder()
                 .setSenderId(request.getSenderId())
                 .setReceiverId(request.getReceiverId())
                 .setContent(request.getContent())
                 .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+
     }
 
 }
