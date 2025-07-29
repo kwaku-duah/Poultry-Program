@@ -15,12 +15,13 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/farmers")
-@PreAuthorize("hasRole('FARMER')")
 public class FarmController {
     private final FarmService farmService;
 
 
 
+
+    @PreAuthorize("hasRole('FARMER')")
     @PostMapping
     public ResponseEntity<Void> addFarmer(
             @RequestHeader("X-Id") String farmerHeaderId,
@@ -32,13 +33,23 @@ public class FarmController {
 
     }
 
+
+    @PreAuthorize("hasRole('FARMER')")
     @GetMapping
     public  ResponseEntity<List<FarmResponseDto>> getAllFarmers(@RequestHeader("X-Id") String farmerHeaderId) {
         Long farmerId = Long.parseLong(farmerHeaderId);
         return ResponseEntity.ok(farmService.getAllFarmers(farmerId));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'VET')")
+    @GetMapping("/all")
+    public ResponseEntity<List<FarmResponseDto>> getAllFarms() {
+        return ResponseEntity.ok(farmService.getAllFarms());
+    }
 
+
+
+    @PreAuthorize("hasRole('FARMER')")
     @PutMapping
     public ResponseEntity<Void> updateFarmer(@RequestHeader("X-Id") String farmerHeaderId, @Valid @RequestBody FarmRequestDto farmRequestDto) {
         Long farmerId = Long.parseLong(farmerHeaderId);
@@ -47,6 +58,7 @@ public class FarmController {
     }
 
 
+    @PreAuthorize("hasRole('FARMER')")
     @DeleteMapping()
     public ResponseEntity<Void> deleteFarmer(@RequestHeader("X-Id") String farmerHeaderId) {
         Long farmerId = Long.parseLong(farmerHeaderId);
