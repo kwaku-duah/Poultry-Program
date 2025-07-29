@@ -65,4 +65,10 @@ public class FarmServiceImpl implements FarmService {
        farmRepository.deleteByFarmerId(farmerId);
 
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<FarmResponseDto> getAllFarms() {
+        return farmRepository.findAll().stream().map(farmMapper::farmResponseDto).toList();
+    }
 }
