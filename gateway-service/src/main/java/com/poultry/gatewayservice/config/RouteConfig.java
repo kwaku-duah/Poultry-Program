@@ -16,14 +16,14 @@ public class RouteConfig {
                         .path("/api/v1/auth/**", "/v1/test/see/**")
                         .uri("lb://AUTH-SERVICE"))
                 .route("user-service", r -> r
-                        .path("/api/v1/users/**", "/api/v1/upgrade/**")
+                        .path("/api/v1/users/**", "/api/v1/upgrade/**", "/api/v1/vets/**")
                         .uri("lb://USER-SERVICE"))
                 .route("farmer-service", r -> r
                         .path("/api/v1/farmers/**", "/api/v1/coops/**", "/api/v1/eggs/**",
-                        "/api/v1/financials/**", "/api/v1/mortality/**", "/api/v1/schedules/**", "/api/v1/vaccines/**", "/api/v1/chat/**")
+                        "/api/v1/financials/**", "/api/v1/mortality/**", "/api/v1/schedules/**", "/api/v1/vaccines/**", "/api/v1/chat/**", "/farmer/ws/**")
                         .uri("lb://FARMER-SERVICE"))
                 .route("message-service", r -> r
-                        .path("/api/v1/messages/**")
+                        .path("/api/v1/messages/**", "/ws")
                         .uri("lb://MESSAGE-SERVICE"))
 
                 .build();

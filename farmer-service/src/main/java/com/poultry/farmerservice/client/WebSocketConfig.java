@@ -22,7 +22,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new WebSocketMessageHandler(kafkaTemplate, objectMapper), "/ws").setAllowedOrigins("*");
+        registry.addHandler(new WebSocketMessageHandler(kafkaTemplate, objectMapper), "/farmer/ws").setAllowedOrigins("*");
     }
 
 

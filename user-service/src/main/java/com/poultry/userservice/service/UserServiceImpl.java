@@ -1,6 +1,7 @@
 package com.poultry.userservice.service;
 
 import com.poultry.userservice.dto.UserRequest;
+import com.poultry.userservice.dto.UserResponseDto;
 import com.poultry.userservice.entity.Role;
 import com.poultry.userservice.entity.User;
 import com.poultry.userservice.exception.DuplicateResourceException;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.EnumSet;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -73,5 +77,19 @@ public class UserServiceImpl implements UserService{
             user.setRoles(EnumSet.of(Role.ROLE_SUPPLIER));
             userRepository.save(user);
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<UserResponseDto> allUsers() {
+        List<User> vets = userRepository.findAll().stream()
+                .filter(user -> user.getRoles().contains(Role.ROLE_VET))
+                .toList();
+
+        return vets.stream()
+                .map(userMapper::toResponse)
+                .collect(Collectors.toList());
+
+
     }
 }
