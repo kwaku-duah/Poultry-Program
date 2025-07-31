@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void saveMessage(MessageRequest messageRequest) {
         Message message = messageMapper.toEntity(messageRequest);
-        message.setTimeStamp(Instant.now().toString());
+        message.setTimeStamp(LocalDateTime.now());
         messageRepository.save(message);
 
     }

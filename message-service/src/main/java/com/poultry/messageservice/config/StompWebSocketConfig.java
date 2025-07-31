@@ -1,4 +1,4 @@
-package com.poultry.messageservice;
+package com.poultry.messageservice.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -17,6 +17,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
         config.setApplicationDestinationPrefixes("/app");
         config.setUserDestinationPrefix("/user");
     }
+
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
