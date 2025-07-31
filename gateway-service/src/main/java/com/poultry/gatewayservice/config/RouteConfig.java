@@ -23,7 +23,7 @@ public class RouteConfig {
                         "/api/v1/financials/**", "/api/v1/mortality/**", "/api/v1/schedules/**", "/api/v1/vaccines/**", "/api/v1/chat/**", "/farmer/ws/**")
                         .uri("lb://FARMER-SERVICE"))
                 .route("message-service", r -> r
-                        .path("/api/v1/messages/**", "/ws/**", "/chat-ws/**", "/api/v1/notify")
+                        .path("/api/v1/messages/**", "/ws/**", "/chat-ws/**", "/api/v1/chat")
                         .uri("lb://MESSAGE-SERVICE"))
 
                 .build();

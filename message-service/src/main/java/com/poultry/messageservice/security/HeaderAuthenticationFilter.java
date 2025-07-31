@@ -34,7 +34,6 @@ public class HeaderAuthenticationFilter extends OncePerRequestFilter {
             Authentication auth = new UsernamePasswordAuthenticationToken(userId, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
-
         filterChain.doFilter(request, response);
     }
 }
