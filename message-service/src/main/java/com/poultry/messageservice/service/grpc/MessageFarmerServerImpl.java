@@ -2,9 +2,9 @@ package com.poultry.messageservice.service.grpc;
 
 
 
+import com.poultry.messageservice.grpc.MessageFarmerGrpc;
 import com.poultry.messageservice.grpc.MessageRequest;
 import com.poultry.messageservice.grpc.MessageResponse;
-import com.poultry.messageservice.grpc.MessageServiceGrpc;
 import com.poultry.messageservice.service.MessageService;
 import com.poultry.messageservice.service.kafka.KafkaService;
 import io.grpc.stub.StreamObserver;
@@ -13,12 +13,12 @@ import org.springframework.grpc.server.service.GrpcService;
 
 
 @GrpcService
-public class MessageServiceServer extends MessageServiceGrpc.MessageServiceImplBase {
-    private final MessageService messageService;
+public class MessageFarmerServerImpl extends MessageFarmerGrpc.MessageFarmerImplBase {
+    private final MessageService messageFarmer;
     private final KafkaService kafkaService;
 
-    public MessageServiceServer(MessageService messageService, KafkaService kafkaService) {
-        this.messageService = messageService;
+    public MessageFarmerServerImpl(MessageService messageFarmer, KafkaService kafkaService) {
+        this.messageFarmer = messageFarmer;
         this.kafkaService = kafkaService;
     }
 
@@ -31,7 +31,7 @@ public class MessageServiceServer extends MessageServiceGrpc.MessageServiceImplB
                 request.getReceiverId(),
                 request.getContent()
         );
-        messageService.saveMessage(dto);
+        messageFarmer.saveMessage(dto);
         kafkaService.sendMessage(dto);
 
         MessageResponse response = MessageResponse.newBuilder()
@@ -42,7 +42,6 @@ public class MessageServiceServer extends MessageServiceGrpc.MessageServiceImplB
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
-
     }
 
 }

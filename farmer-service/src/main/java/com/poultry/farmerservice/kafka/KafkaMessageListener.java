@@ -1,8 +1,6 @@
 package com.poultry.farmerservice.kafka;
 
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.util.JsonFormat;
 import com.poultry.farmerservice.grpc.MessageRequest;
 import com.poultry.farmerservice.websocketconfiguration.WebSocketMessageHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -17,14 +15,21 @@ import java.io.IOException;
 @Service
 public class KafkaMessageListener {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     @KafkaListener(topics = "message-topic", groupId = "farmer-group")
     public void listen(String messageJson) {
         try {
-            MessageRequest message = objectMapper.readValue(messageJson, MessageRequest.class);
+            // Log raw message for debugging
+            log.info("Raw Kafka message: {}", messageJson);
+
+            // Parse JSON to Protobuf
+            MessageRequest.Builder builder = MessageRequest.newBuilder();
+            JsonFormat.parser().ignoringUnknownFields().merge(messageJson, builder);
+            MessageRequest message = builder.build();
+
             log.info("💬 New message received: From: {}, To: {}, Content: {}",
                     message.getSenderId(), message.getReceiverId(), message.getContent());
+
+            // Forward to WebSocket sessions
             for (WebSocketSession session : WebSocketMessageHandler.getWebSocketSessions()) {
                 try {
                     session.sendMessage(new TextMessage(messageJson));
@@ -33,7 +38,7 @@ public class KafkaMessageListener {
                 }
             }
 
-        } catch (JsonProcessingException e) {
+        } catch (IOException e) {
             log.error("Failed to deserialize Kafka message", e);
         }
     }

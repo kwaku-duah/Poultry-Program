@@ -1,10 +1,10 @@
 syntax = "proto3";
 
 option java_multiple_files=true;
-option java_outer_classname="MessageServiceProto";
+option java_outer_classname="MessageFarmerProto";
 option java_package="com.poultry.messageservice.grpc";
 
-service MessageService {
+service MessageFarmer {
   rpc sendMessage(MessageRequest) returns (MessageResponse);
 }
 
