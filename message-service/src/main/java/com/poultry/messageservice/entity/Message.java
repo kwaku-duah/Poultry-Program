@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -26,5 +27,5 @@ public class Message {
     private String senderId;
     private String receiverId;
     private String content;
-    private String timeStamp;
+    private LocalDateTime timeStamp;
 }
