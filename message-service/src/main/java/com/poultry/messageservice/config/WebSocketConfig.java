@@ -4,7 +4,6 @@ package com.poultry.messageservice.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poultry.messageservice.websocket.WebSocketMessageHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;

@@ -19,11 +19,6 @@ public class MessageServiceGrpcClient {
     }
 
     public MessageResponse sendMessage(MessageRequest messageRequest) {
-        MessageRequest request = MessageRequest.newBuilder()
-                .setSenderId(messageRequest.getSenderId())
-                .setReceiverId(messageRequest.getReceiverId())
-                .setContent(messageRequest.getContent())
-                .build();
-        return blockingStub.sendMessage(request);
+        return blockingStub.sendMessage(messageRequest);
     }
 }
