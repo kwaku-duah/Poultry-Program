@@ -19,9 +19,13 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new WebSocketMessageHandler(kafkaTemplate, objectMapper), "/ws").setAllowedOrigins("*");
+        registry
+                .addHandler(new WebSocketMessageHandler(kafkaTemplate, objectMapper), "/ws")
+                .setAllowedOrigins("*")
+                .addInterceptors(new CustomHandshakeInterceptor());
     }
 
 
