@@ -21,7 +21,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/chat-ws/**", "/ws/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(headerAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
