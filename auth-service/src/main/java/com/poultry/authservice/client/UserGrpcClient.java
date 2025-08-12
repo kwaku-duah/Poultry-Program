@@ -28,7 +28,5 @@ public class UserGrpcClient {
                 .build();
        return blockingStub.getUserByEmail(request);
 
-
-
     }
 }

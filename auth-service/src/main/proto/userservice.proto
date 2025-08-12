@@ -19,6 +19,7 @@ message UserResponse {
   string email = 3;
   string password = 4;
   repeated Role roles = 5;
+  bool isOauthUser = 6;
 }
 
 enum Role {

@@ -28,4 +28,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(NotDefaultRegistrantException.class)
+    public ResponseEntity<GenericErrorResponse> notDefaultMethod(NotDefaultRegistrantException ex) {
+        GenericErrorResponse response = new GenericErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }

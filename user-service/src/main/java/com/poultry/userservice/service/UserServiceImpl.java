@@ -1,5 +1,7 @@
 package com.poultry.userservice.service;
 
+import com.poultry.userservice.dto.Oauth2Access;
+import com.poultry.userservice.dto.Oauth2RresponseDto;
 import com.poultry.userservice.dto.UserRequest;
 import com.poultry.userservice.dto.UserResponseDto;
 import com.poultry.userservice.entity.Role;
@@ -10,11 +12,13 @@ import com.poultry.userservice.mapper.UserMapper;
 import com.poultry.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,10 +45,48 @@ public class UserServiceImpl implements UserService{
         upgrade, to protect the application against injection
         * */
         user.setRoles(EnumSet.of(Role.ROLE_USER));
+        user.setOauthUser(false);
         userRepository.save(user);
 
 
     }
+
+
+    public String generateRandom() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(10);
+        for (int i = 0; i < 10; i++) {
+            sb.append(random.nextInt(10));
+        }
+        return sb.toString();
+    }
+
+    @Transactional
+    public Oauth2RresponseDto oauth2Signup(OAuth2User oAuth2User) {
+        String email = oAuth2User.getAttribute("email");
+        String fullName = oAuth2User.getAttribute("name");
+
+        if (email == null) {
+            throw new IllegalArgumentException("Email not provided by Google OAuth2");
+        }
+
+
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new DuplicateResourceException("Email " + email + " already exists");
+        }
+
+        User newUser = new User();
+        newUser.setEmail(email);
+        newUser.setFullName(fullName != null ? fullName : "Unknown");
+        newUser.setPassword(bCryptPasswordEncoder.encode(generateRandom()));
+        newUser.setOauthUser(true);
+        newUser.setRoles(EnumSet.of(Role.ROLE_USER));
+        User savedUser = userRepository.save(newUser);
+
+        return new Oauth2RresponseDto(savedUser.getEmail(), savedUser.getFullName());
+    }
+
+
 
     @Transactional
     @Override

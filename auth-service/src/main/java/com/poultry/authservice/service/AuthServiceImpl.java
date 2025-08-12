@@ -3,11 +3,12 @@ package com.poultry.authservice.service;
 import com.poultry.authservice.UserResponse;
 import com.poultry.authservice.client.UserGrpcClient;
 import com.poultry.authservice.dto.LoginRequest;
-import com.poultry.authservice.dto.LoginResponseDto;
+import com.poultry.authservice.exception.NotDefaultRegistrantException;
 import com.poultry.authservice.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,8 +26,32 @@ public class AuthServiceImpl implements AuthService {
             throw new UserNotFoundException("user " + loginRequest.email() + " not found");
         }
 
+        if (user.getIsOauthUser()) {
+            throw new NotDefaultRegistrantException("User" + loginRequest.email() + " is not default registrant");
+        }
+
         if(!bCryptPasswordEncoder.matches(loginRequest.password(), user.getPassword())) {
             throw new BadCredentialsException("password does not match");
+        }
+        return user;
+    }
+
+@Override
+    public UserResponse oAuthSignin(OAuth2User oAuth2User) {
+        String email = oAuth2User.getAttribute("email");
+
+        if (email == null) {
+            throw new IllegalArgumentException("Email not provided by Google OAuth2");
+        }
+
+        UserResponse user = userGrpcClient.getUserByEmail(email);
+        if (user == null) {
+            throw new IllegalStateException("User not found with email: " + email);
+        }
+
+        // Ensure user is an OAuth user for OAuth login
+        if (!user.getIsOauthUser()) {
+            throw new NotDefaultRegistrantException("User " + email + " must use standard login");
         }
         return user;
     }

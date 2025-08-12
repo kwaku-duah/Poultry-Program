@@ -30,12 +30,14 @@ public class UserServiceServer extends UserServiceGrpc.UserServiceImplBase {
                 .setId(user.getId())
                 .setFullName(user.getFullName())
                 .setPassword(user.getPassword())
+
                 .setEmail(user.getEmail())
                 .addAllRoles(
                         user.getRoles().stream()
                                 .map(role -> Role.valueOf(role.name()))
                                 .collect(Collectors.toList())
                 )
+                .setIsOauthUser(user.isOauthUser())
                 .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();

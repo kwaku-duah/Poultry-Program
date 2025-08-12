@@ -9,6 +9,8 @@ import com.poultry.authservice.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -33,5 +35,17 @@ public class AuthController {
                 user.getId(), user.getFullName(),user.getEmail(),new HashSet<>(user.getRolesList()),accessToken, refreshToken
         ));
 
+    }
+
+    @GetMapping("/oauth2/login")
+    public ResponseEntity<LoginResponseDto> oAuth2Login(@AuthenticationPrincipal OAuth2User oAuth2User) {
+        UserResponse user = authService.oAuthSignin(oAuth2User);
+
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDto(
+                user.getId(), user.getFullName(), user.getEmail(), new HashSet<>(user.getRolesList()), accessToken, refreshToken
+        ));
     }
 }

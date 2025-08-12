@@ -19,6 +19,7 @@ public class User {
     private String fullName;
     private String email;
     private String password;
+    private boolean isOauthUser;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
