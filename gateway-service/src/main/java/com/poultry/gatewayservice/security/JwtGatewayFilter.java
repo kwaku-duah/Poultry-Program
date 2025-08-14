@@ -31,10 +31,15 @@ public class JwtGatewayFilter implements GlobalFilter, Ordered {
         String path = request.getPath().toString();
         System.out.println("[JwtGatewayFilter] >> Request path: " + path);
 
-        if (path.startsWith("/api/v1/auth") || path.startsWith("/api/v1/users" ) || path.startsWith("/chat-ws") || path.startsWith("/ws") || path.startsWith("/farmer/ws")) {
+        if (path.startsWith("/api/v1/auth") || path.startsWith("/api/v1/users" ) || path.startsWith("/chat-ws") || path.startsWith("/ws") || path.startsWith("/farmer/ws") || path.startsWith("/oauth2/authorization/google") || path.startsWith("/oauth2/callback/google") || path.startsWith("/oauth2") || path.startsWith("/login/oauth2") || path.startsWith("/login") || path.startsWith("/signin/oauth2/authorization/google") || path.startsWith("/signin/oauth2/callback/google") || path.startsWith("/api/v1/auth/oauth2/login")) {
             System.out.println("[JwtGatewayFilter] >> Public endpoint, skipping auth");
             return chain.filter(exchange);
         }
+
+        if (path.equals("/favicon.ico")) {
+            return exchange.getResponse().setComplete();
+        }
+
 
         String authHeader = request.getHeaders().getFirst("Authorization");
         System.out.println("[JwtGatewayFilter] >> Authorization header: " + authHeader);
@@ -75,6 +80,6 @@ public class JwtGatewayFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -1; // Ensure this runs early
+        return -1;
     }
 }

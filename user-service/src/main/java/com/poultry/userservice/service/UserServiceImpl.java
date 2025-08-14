@@ -1,6 +1,6 @@
 package com.poultry.userservice.service;
 
-import com.poultry.userservice.dto.Oauth2Access;
+
 import com.poultry.userservice.dto.Oauth2RresponseDto;
 import com.poultry.userservice.dto.UserRequest;
 import com.poultry.userservice.dto.UserResponseDto;
@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService{
         String email = oAuth2User.getAttribute("email");
         String fullName = oAuth2User.getAttribute("name");
 
+        System.out.println("Doing this is great, fantastic, >>>>" + fullName +  email);
         if (email == null) {
             throw new IllegalArgumentException("Email not provided by Google OAuth2");
         }
@@ -83,6 +84,7 @@ public class UserServiceImpl implements UserService{
         newUser.setRoles(EnumSet.of(Role.ROLE_USER));
         User savedUser = userRepository.save(newUser);
 
+        System.out.println(newUser + ">>>>>>>>>>>>>>>>>>>>");
         return new Oauth2RresponseDto(savedUser.getEmail(), savedUser.getFullName());
     }
 

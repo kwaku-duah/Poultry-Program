@@ -26,14 +26,13 @@ public class UserController {
                 .body(new ApiResponse("User Created successfully"));
     }
 
-    @PostMapping("/oauth2/signup")
-    public ResponseEntity<Oauth2RresponseDto> signup(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        Oauth2RresponseDto response = userService.oauth2Signup(oAuth2User);
-        return ResponseEntity.ok(response);
-    }
-
-
-
+//    @PostMapping("/oauth2/signup")
+//    public ResponseEntity<Oauth2RresponseDto> signup(@AuthenticationPrincipal OAuth2User oAuth2User) {
+//        Oauth2RresponseDto response = userService.oauth2Signup(oAuth2User);
+//
+//        System.out.println("Checking out if this works >>>>>>>>" + response);
+//        return ResponseEntity.ok(response);
+//    }
 
 
 }

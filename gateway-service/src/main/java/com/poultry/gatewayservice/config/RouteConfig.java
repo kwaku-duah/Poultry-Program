@@ -13,10 +13,11 @@ public class RouteConfig {
     public RouteLocator customRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("auth-service", r -> r
-                        .path("/api/v1/auth/**", "/v1/test/see/**")
+                        .path("/api/v1/auth/**", "/v1/test/see/**", "/signin/oauth2/authorization/google", "/signin/oauth2/callback/google", "/api/v1/auth/oauth2/login")
                         .uri("lb://AUTH-SERVICE"))
                 .route("user-service", r -> r
-                        .path("/api/v1/users/**", "/api/v1/upgrade/**", "/api/v1/vets/**")
+                        .path("/api/v1/users/**", "/api/v1/upgrade/**", "/api/v1/vets/**", "/oauth2/authorization/google", "/oauth2/callback/google",  "/login/oauth2/**", "/login/**")
+                        .filters(f -> f.stripPrefix(0).preserveHostHeader())
                         .uri("lb://USER-SERVICE"))
                 .route("farmer-service", r -> r
                         .path("/api/v1/farmers/**", "/api/v1/coops/**", "/api/v1/eggs/**",

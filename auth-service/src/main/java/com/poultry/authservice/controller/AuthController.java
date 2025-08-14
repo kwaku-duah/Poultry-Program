@@ -22,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
     private final JwtService jwtService;
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> getUser(@RequestBody LoginRequest loginRequest) {
        UserResponse user = authService.fullUser(loginRequest);
 
@@ -40,10 +40,11 @@ public class AuthController {
     @GetMapping("/oauth2/login")
     public ResponseEntity<LoginResponseDto> oAuth2Login(@AuthenticationPrincipal OAuth2User oAuth2User) {
         UserResponse user = authService.oAuthSignin(oAuth2User);
-
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponseDto(null, null, null, null, null, null));
+        }
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
-
         return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDto(
                 user.getId(), user.getFullName(), user.getEmail(), new HashSet<>(user.getRolesList()), accessToken, refreshToken
         ));

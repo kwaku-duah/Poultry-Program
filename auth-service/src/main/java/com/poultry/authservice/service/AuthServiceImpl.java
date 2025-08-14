@@ -36,22 +36,12 @@ public class AuthServiceImpl implements AuthService {
         return user;
     }
 
-@Override
+    @Override
     public UserResponse oAuthSignin(OAuth2User oAuth2User) {
         String email = oAuth2User.getAttribute("email");
-
-        if (email == null) {
-            throw new IllegalArgumentException("Email not provided by Google OAuth2");
-        }
-
         UserResponse user = userGrpcClient.getUserByEmail(email);
-        if (user == null) {
-            throw new IllegalStateException("User not found with email: " + email);
-        }
-
-        // Ensure user is an OAuth user for OAuth login
-        if (!user.getIsOauthUser()) {
-            throw new NotDefaultRegistrantException("User " + email + " must use standard login");
+        if (user == null || !user.getIsOauthUser()) {
+            throw new NotDefaultRegistrantException(email + "not found or registered with oauth2");
         }
         return user;
     }
